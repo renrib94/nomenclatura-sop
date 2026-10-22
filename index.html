@@ -367,20 +367,20 @@
     body.imprimindoRel .relwrap [contenteditable="true"]:hover,
     body.imprimindoRel .relwrap [contenteditable="true"]:focus{background:none;outline:none}
   }
-  /* aba Regras: quadros de estrutura compactos (~30% menores) */
+  /* aba Regras: quadros de estrutura (fontes ~40% maiores) */
   #a1 .card:not(.plano){padding:15px 18px;margin-bottom:14px}
-  #a1 .card>h2{font-size:13px}
-  #a1 .card>.sub{margin-bottom:10px;font-size:12px}
-  #estrutura,#estruturaMP{gap:6px}
-  #estrutura .fx,#estruturaMP .fx{border-radius:9px;grid-template-rows:13px 22px 1fr}
-  #estrutura .fx .nn,#estruturaMP .fx .nn{font-size:8.5px;line-height:13px}
-  #estrutura .fx .h,#estruturaMP .fx .h{font-size:7.5px;padding:0 3px}
-  #estrutura .fx .b,#estruturaMP .fx .b{padding:7px 4px 8px;gap:3px}
-  #estrutura .fx .b .ex,#estruturaMP .fx .b .ex{font-size:9.5px}
-  #estrutura .fx .b .lb,#estruturaMP .fx .b .lb{font-size:7.5px}
-  #a1 .exemplo{margin-top:12px}
-  #a1 .exemplo .rot{font-size:9.5px;margin-bottom:5px}
-  #a1 .faixa{font-size:11.5px;padding:9px 18px;border-radius:9px}
+  #a1 .card>h2{font-size:15px}
+  #a1 .card>.sub{margin-bottom:10px;font-size:13.5px}
+  #estrutura,#estruturaMP{gap:7px}
+  #estrutura .fx,#estruturaMP .fx{border-radius:9px;grid-template-rows:18px 30px 1fr}
+  #estrutura .fx .nn,#estruturaMP .fx .nn{font-size:11px;line-height:18px}
+  #estrutura .fx .h,#estruturaMP .fx .h{font-size:10.5px;padding:0 4px}
+  #estrutura .fx .b,#estruturaMP .fx .b{padding:9px 5px 10px;gap:4px}
+  #estrutura .fx .b .ex,#estruturaMP .fx .b .ex{font-size:13px}
+  #estrutura .fx .b .lb,#estruturaMP .fx .b .lb{font-size:10.5px}
+  #a1 .exemplo{margin-top:14px}
+  #a1 .exemplo .rot{font-size:11.5px;margin-bottom:6px}
+  #a1 .faixa{font-size:14px;padding:11px 22px;border-radius:10px}
   /* quadro "Verificação na tela" reduzido */
   .vt{padding:15px 20px}
   .vt>.sub{margin-bottom:8px}
@@ -465,12 +465,12 @@
       <div class="card">
         <h2>Nome gerado</h2>
         <div class="exemplo" style="margin-top:8px"><div class="faixa" id="montado9">—</div></div>
+        <div class="estr e9" id="prev9" style="margin-top:14px"></div>
         <div class="linha" style="margin-top:12px;justify-content:center">
           <button class="btn lar" id="btCopiar9" onclick="copiar('montado9')">📋 Copiar nome</button>
           <button class="btn cinza" onclick="limpar9()">Limpar campos</button>
         </div>
         <div id="aviso9"></div>
-        <div class="estr e9" id="prev9" style="margin-top:16px"></div>
       </div>
     </div>
 
@@ -481,12 +481,12 @@
       <div class="card">
         <h2>Nome gerado</h2>
         <div class="exemplo" style="margin-top:8px"><div class="faixa" id="montado7">—</div></div>
+        <div class="estr e7" id="prev7" style="margin-top:14px"></div>
         <div class="linha" style="margin-top:12px;justify-content:center">
           <button class="btn lar" id="btCopiar7" onclick="copiar('montado7')">📋 Copiar nome</button>
           <button class="btn cinza" onclick="limpar7()">Limpar campos</button>
         </div>
         <div id="aviso7"></div>
-        <div class="estr e7" id="prev7" style="margin-top:16px"></div>
       </div>
     </div>
   </div>
@@ -582,8 +582,9 @@
 
       <div id="painelBase">
         <p class="sub" style="margin:0 0 14px;font-size:13px;color:var(--sub);line-height:1.55">
-          Carregue a planilha <code>.xlsx</code> com a aba <b>BANCO</b>. Atividades, municípios,
-          escolas, etapas, disciplinas, setorização e conteúdos são substituídos de uma vez.</p>
+          Carregue a planilha <code>.xlsx</code>. Os dados são lidos da aba <b>BANCO</b> e substituem
+          a base original. Para valer para todos os usuários, depois clique em
+          <b>Baixar index.html atualizado</b> e envie esse arquivo ao GitHub.</p>
         <div class="zona" id="zonaBase" onclick="document.getElementById('arqBase').click()">
           <b id="zonaBaseTit">Clique para escolher a planilha ou arraste aqui</b>
           <span id="zonaBaseSub">Planilha SOP · aba BANCO · XLSX</span>
@@ -592,6 +593,7 @@
                onchange="carregarBase(this.files[0])">
         <div id="baseMsg"></div>
         <div class="linha">
+          <button class="btn rox" id="btBaixarIndex" onclick="baixarIndexAtualizado()" disabled>⬇ Baixar index.html atualizado</button>
           <button class="btn cinza" onclick="restaurarBase()">Restaurar base original</button>
           <button class="btn cinza" onclick="fecharBase()">Fechar</button>
         </div>
@@ -1424,10 +1426,11 @@ function marcarInfoBase(origem, quando){
   INFO_BASE={origem:origem||'', quando:quando||''};
   const el=document.getElementById('baseInfo');
   if(el) el.textContent = origem
-    ? `Base carregada de ${origem}${quando?' em '+quando:''}`
-    : 'Base embutida (planilha oficial)';
+    ? `Base atual: ${origem}${quando?' (carregada em '+quando+')':''}. Substituiu a base original neste navegador.`
+    : 'Base atual: original embutida na página.';
   const st=document.getElementById('btBaseSt');
   if(st) st.textContent = origem ? 'Base personalizada' : 'Atualizar base';
+  const bi=document.getElementById('btBaixarIndex'); if(bi) bi.disabled=!origem;
 }
 
 async function carregarBase(file){
@@ -1461,6 +1464,25 @@ async function carregarBase(file){
   const inp=document.getElementById('arqBase'); if(inp) inp.value='';
 }
 
+async function baixarIndexAtualizado(){
+  const msg=document.getElementById('baseMsg');
+  try{
+    let html='';
+    try{ const r=await fetch(location.href.split('#')[0].split('?')[0]+'?v='+Date.now(),{cache:'no-store'}); if(r.ok) html=await r.text(); }catch(e){}
+    const MARCA='\nlet D = {';
+    if(html.indexOf(MARCA)<0) throw new Error('abra a página pelo endereço do GitHub (não pelo arquivo local) e tente de novo.');
+    const ini=html.indexOf(MARCA)+1, fim=html.indexOf('\n',ini);
+    html=html.slice(0,ini)+'let D = '+JSON.stringify(D).replace(/<\//g,'<\\/')+';'+html.slice(fim);
+    const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download='index.html';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url),2000);
+    msg.innerHTML='<div class="aviso a-ok"><b>✅ index.html gerado com a nova base</b>Envie este arquivo ao GitHub (Add file → Upload files → Commit changes). Em 1 a 2 minutos vale para todos.</div>';
+  }catch(err){
+    msg.innerHTML='<div class="aviso a-er"><b>Não foi possível gerar o arquivo</b>'+esc(err.message)+'</div>';
+  }
+}
 function restaurarBase(){
   try{ localStorage.removeItem('sopBase'); }catch(e){}
   D = JSON.parse(JSON.stringify(D_ORIGINAL)); reconstruirIndices();
@@ -1470,7 +1492,7 @@ function restaurarBase(){
     document.getElementById('zonaBaseTit').textContent='Clique para escolher a planilha ou arraste aqui';
     document.getElementById('zonaBaseSub').textContent='Planilha SOP · aba BANCO · XLSX'; }
   document.getElementById('baseMsg').innerHTML=
-    '<div class="aviso a-inf">Base embutida restaurada.</div>';
+    '<div class="aviso a-inf">Base original restaurada.</div>';
   marcarInfoBase('');
 }
 
@@ -2437,6 +2459,7 @@ const zonaB=document.getElementById('zonaBase');
 zonaB.addEventListener('drop',e=>{ if(e.dataTransfer.files[0]) carregarBase(e.dataTransfer.files[0]); });
 
 
+let BASE_OFICIAL_OK = false;
 restaurarDoArmazenamento();
 pintarEstrutura(); montarForm9(); montarForm7();
 marcarInfoBase(document.getElementById('baseInfo').textContent?null:'');
