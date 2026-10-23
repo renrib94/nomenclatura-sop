@@ -6,16 +6,16 @@
 <title>SOP · Nomenclatura de Arquivos de Projeto</title>
 <style>
   :root{
-    --lar:#f97316; --lar-l:#fff1e6; --lar-d:#c2410c;
-    --azu:#3b82f6; --azu-l:#e8f2fe; --azu-d:#1d4ed8;
-    --ama:#f5b214; --ama-l:#fef7e4; --ama-d:#b45309;
-    --rox:#a855f7; --rox-l:#f6edfe; --rox-d:#7e22ce;
-    --ver:#22c55e; --ver-l:#e8f8ee; --ver-d:#15803d;
-    --rosa:#ef4444; --rosa-l:#fdeded; --rosa-d:#b91c1c;
-    --txt:#2b3445; --sub:#7d8da5; --linha:#eef1f6; --fundo:#f4f7fc;
-    --sombra:0 2px 14px rgba(43,52,69,.07);
-    --sombra2:0 6px 26px rgba(43,52,69,.10);
-    --r:14px;
+    --lar:#0f6cbd; --lar-l:#ebf3fc; --lar-d:#0c3b5e;
+    --azu:#4f6bed; --azu-l:#edf0fd; --azu-d:#2f47b5;
+    --ama:#d08a4c; --ama-l:#fcf1e7; --ama-d:#9a5a22;
+    --rox:#8764b8; --rox-l:#f3eef9; --rox-d:#5c3d8f;
+    --ver:#2e9e7b; --ver-l:#e5f5ef; --ver-d:#1b6e55;
+    --rosa:#d13438; --rosa-l:#fdeced; --rosa-d:#a4262c;
+    --txt:#242424; --sub:#616161; --linha:#ebe8e4; --fundo:#faf8f5;
+    --sombra:0 2px 12px rgba(0,60,60,.06);
+    --sombra2:0 8px 28px rgba(0,60,60,.12);
+    --r:12px;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--fundo);color:var(--txt);font-size:15px;
@@ -27,9 +27,9 @@
   .marca{display:flex;align-items:center;gap:11px;padding:0 8px 22px;margin-bottom:6px;
          border-bottom:1px solid var(--linha)}
   .logo{width:40px;height:40px;border-radius:12px;flex:0 0 40px;
-        background:linear-gradient(135deg,var(--lar),#fb923c);color:#fff;
+        background:linear-gradient(135deg,var(--lar),#5b5fc7);color:#fff;
         display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;
-        box-shadow:0 4px 12px rgba(249,115,22,.32)}
+        box-shadow:0 4px 12px rgba(15,108,189,.32)}
   .marca b{display:block;font-size:14.5px;line-height:1.2}
   .marca span{display:block;font-size:11px;color:var(--sub);margin-top:2px}
   nav{display:flex;flex-direction:column;gap:6px;padding-top:16px}
@@ -124,7 +124,7 @@
         font-size:12.5px;font-weight:700;color:var(--sub);padding:13px 22px;border-radius:11px;
         transition:.16s;text-transform:uppercase;letter-spacing:.4px}
   .tabs button:hover{transform:translateY(-1px)}
-  .tabs button.on{background:var(--lar);color:#fff;box-shadow:0 4px 14px rgba(249,115,22,.3)}
+  .tabs button.on{background:var(--lar);color:#fff;box-shadow:0 4px 14px rgba(15,108,189,.3)}
   .painel{display:none} .painel.on{display:block;animation:f .2s ease}
 
   table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
@@ -154,7 +154,7 @@
   /* combo com busca */
   .combo{position:relative}
   .combo input{padding:9px 24px 9px 8px;font-size:11.5px;border-radius:9px;cursor:pointer}
-  .combo input.vazio{border-color:#fcd9b6;background:#fffaf5}
+  .combo input.vazio{border-color:#b4d6fa;background:#f5f9fe}
   .combo input.preenchido{border-color:#b9e6c9;background:#f3fbf6;font-weight:700}
   .combo .seta{position:absolute;right:8px;top:50%;transform:translateY(-50%);
         font-size:9px;color:var(--sub);pointer-events:none}
@@ -174,7 +174,7 @@
        display:inline-flex;align-items:center;gap:7px}
   .btn:hover{transform:translateY(-1px);box-shadow:var(--sombra2)}
   .btn:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
-  .btn.lar{background:var(--lar);box-shadow:0 4px 12px rgba(249,115,22,.28)}
+  .btn.lar{background:var(--lar);box-shadow:0 4px 12px rgba(15,108,189,.28)}
   .btn.azu{background:var(--azu);box-shadow:0 4px 12px rgba(59,130,246,.28)}
   .btn.rox{background:var(--rox);box-shadow:0 4px 12px rgba(168,85,247,.28)}
   .btn.cinza{background:var(--fundo);color:var(--sub);box-shadow:none}
@@ -276,7 +276,7 @@
   .tourVeu{position:fixed;inset:0;z-index:300;display:none;background:transparent}
   .tourVeu.on{display:block}
   .tourFoco{position:absolute;border-radius:12px;box-shadow:0 0 0 9999px rgba(23,30,43,.66),
-        0 0 0 3px var(--lar), 0 0 22px rgba(249,115,22,.55);transition:all .28s cubic-bezier(.4,0,.2,1);
+        0 0 0 3px var(--lar), 0 0 22px rgba(15,108,189,.55);transition:all .28s cubic-bezier(.4,0,.2,1);
         pointer-events:none}
   .tourBalao{position:absolute;width:330px;max-width:calc(100vw - 28px);background:#fff;
         border-radius:14px;box-shadow:0 18px 50px rgba(23,30,43,.4);padding:17px 18px 15px;
@@ -297,15 +297,15 @@
         padding:8px 15px;cursor:pointer;background:var(--fundo);color:var(--txt)}
   .tourBalao button.tb:hover{background:#e2e8f2}
   .tourBalao button.tb.pri{background:var(--lar);color:#fff}
-  .tourBalao button.tb.pri:hover{background:#fb8c3c}
+  .tourBalao button.tb.pri:hover{background:#115ea3}
   .tourPontos{display:flex;gap:5px;margin-top:12px}
   .tourPontos i{width:6px;height:6px;border-radius:50%;background:var(--linha)}
   .tourPontos i.on{background:var(--lar);width:18px;border-radius:4px}
   .linkTut{display:inline-block;margin-top:5px;border:0;background:none;padding:0;cursor:pointer;
         font:inherit;font-size:12.5px;color:var(--lar);text-decoration:underline;
         text-underline-offset:3px;text-decoration-thickness:1px}
-  .linkTut:hover{color:#c2410c;text-decoration-thickness:2px}
-  .linkTut.claro{margin:0 0 0 auto;font-size:12px;color:#fde8d4}
+  .linkTut:hover{color:#0c3b5e;text-decoration-thickness:2px}
+  .linkTut.claro{margin:0 0 0 auto;font-size:12px;color:#dbeafc}
   .linkTut.claro:hover{color:#fff}
   .tourX{position:absolute;top:9px;right:9px;border:0;background:none;cursor:pointer;
         font-size:14px;line-height:1;color:var(--sub);padding:5px;border-radius:7px}
@@ -313,8 +313,8 @@
   @media print{ .tourVeu,.linkTut{display:none !important} }
 
   /* ── introdução ── */
-  .card.destaque{border:1px solid #f7c68a;background:linear-gradient(180deg,#fffaf2,#fff)}
-  .card.destaque h2{color:#c2410c}
+  .card.destaque{border:1px solid #b4d6fa;background:linear-gradient(180deg,#f5f9fe,#fff)}
+  .card.destaque h2{color:#0c3b5e}
   .tecla{display:inline-block;background:var(--fundo);border:1px solid var(--linha);
         border-radius:6px;padding:1px 7px;font-size:12.5px;font-weight:700;color:var(--txt)}
   .guia{display:flex;flex-direction:column;gap:13px;margin-top:12px}
@@ -323,7 +323,7 @@
   .gitem .gic{flex:0 0 32px;height:32px;border-radius:9px;display:flex;align-items:center;
         justify-content:center;font-size:15px}
   .gic.rox{background:var(--rox-l);color:var(--rox)} .gic.azu{background:var(--azu-l);color:var(--azu)}
-  .gic.ver{background:var(--ver-l);color:var(--ver-d)} .gic.lar{background:#fff1e3;color:#c2410c}
+  .gic.ver{background:var(--ver-l);color:var(--ver-d)} .gic.lar{background:#ebf3fc;color:#0c3b5e}
   .gic.cin{background:var(--fundo);color:var(--sub)}
   .gitem div b{display:block;font-size:13.5px;color:var(--txt);margin-bottom:2px}
   .gitem div span{display:block;font-size:12.5px;color:var(--sub);line-height:1.6}
@@ -339,7 +339,7 @@
         font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap}
   .relBarra button:hover{background:#505d75}
   .relBarra button.pri{background:var(--lar)}
-  .relBarra button.pri:hover{background:#fb8c3c}
+  .relBarra button.pri:hover{background:#115ea3}
   .relFolha{background:#fff;border-radius:14px;box-shadow:var(--sombra);padding:34px 38px;
         margin-top:14px}
   @media(max-width:860px){ .relFolha{padding:20px} }
@@ -385,6 +385,121 @@
   .vt{padding:15px 20px}
   .vt>.sub{margin-bottom:8px}
   .vt .linha{margin-top:10px}
+
+  /* ═══ TEMA FLUENT AZUL ═══ */
+  :root{
+    --lar:#0f6cbd; --lar-l:#ebf3fc; --lar-d:#0c3b5e;
+    --azu:#4f52b2; --azu-l:#eeeffa; --azu-d:#383a8a;
+    --rox:#8a63d2; --rox-l:#f4effc; --rox-d:#5b3a9e;
+    --ceu:#2b88d8; --ceu-l:#e8f3fc; --ceu-d:#1a5f9e;
+    --ama:#d9824b; --ama-l:#fdf1e8; --ama-d:#9c521f;
+    --rsa:#c4578f; --rsa-l:#fbeef5; --rsa-d:#8e3263;
+    --ver:#107c10; --ver-l:#eef7ee; --ver-d:#0b5a0b;
+    --rosa:#c50f1f; --rosa-l:#fdecee; --rosa-d:#960b18;
+    --txt:#242424; --sub:#616161; --linha:#e8e8ef; --fundo:#f7f8fc;
+    --sombra:0 1px 2px rgba(16,24,64,.04),0 2px 8px rgba(16,24,64,.05);
+    --sombra2:0 4px 20px rgba(16,24,64,.10);
+    --r:10px;
+  }
+  body,input,select,textarea,button{font-family:'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif}
+  body{font-weight:400;color:var(--txt);background:var(--fundo);
+       background-image:radial-gradient(1100px 360px at 10% -100px,rgba(15,108,189,.10),transparent 70%),
+                        radial-gradient(900px 340px at 95% -80px,rgba(138,99,210,.10),transparent 70%);
+       background-attachment:fixed}
+  b,strong{font-weight:600}
+  .cabeca h1{font-family:'Segoe UI Variable Display','Segoe UI',system-ui,sans-serif;font-weight:600;
+       font-size:24px;text-transform:none;letter-spacing:-.2px}
+  .cabeca p{font-weight:400}
+  .card>h2,#a1 .card>h2,.modal .mcab h2{font-weight:600;text-transform:none;letter-spacing:0;font-size:15.5px}
+  #a1 .card>h2{font-size:15.5px}
+  .marca b{font-weight:600}
+  aside{background:rgba(255,255,255,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+        border-right:1px solid var(--linha);box-shadow:none}
+  .logo{background:linear-gradient(135deg,#0f6cbd,#5b5fc7);border-radius:10px;font-weight:600;
+        box-shadow:0 4px 12px rgba(15,108,189,.28)}
+  .ic svg,.btn svg,.relBarra svg{display:block;flex:0 0 auto}
+  nav button{border-radius:8px;position:relative;padding:11px 12px}
+  nav button .ic{background:transparent !important;color:var(--sub) !important;width:30px;height:30px;flex:0 0 30px}
+  nav button .tx b{font-weight:500}
+  nav button:hover{background:#f0f2f8}
+  nav button.on{background:var(--lar-l)}
+  nav button.on::before{content:'';position:absolute;left:0;top:11px;bottom:11px;width:3px;border-radius:3px;background:var(--lar)}
+  nav button.on .tx b{color:var(--lar-d);font-weight:600} nav button.on .tx span{color:var(--lar)}
+  nav button.on .ic{color:var(--lar) !important}
+  .btBase{background:#fff;border:1px solid var(--linha)} .btBase:hover{background:#f0f2f8}
+  .btBase .ic,.btBase.liberado .ic{background:var(--lar-l);color:var(--lar)}
+  .card,.relFolha,.at,.pill{background:rgba(255,255,255,.92);border:1px solid var(--linha);box-shadow:var(--sombra)}
+  .card{border-radius:12px}
+  .pill{font-weight:500}
+  .tabs{gap:4px;background:#eceef6;padding:4px;border-radius:10px;display:inline-flex}
+  .tabs button{background:transparent;box-shadow:none;border:0;font-weight:500;text-transform:none;
+        letter-spacing:0;padding:9px 18px;border-radius:7px;font-size:13px;color:var(--sub)}
+  .tabs button:hover{transform:none;background:rgba(255,255,255,.6)}
+  .tabs button.on{background:#fff;color:var(--lar-d);box-shadow:0 1px 3px rgba(16,24,64,.12)}
+  .btn{border-radius:6px;font-weight:500;font-size:13.5px;padding:9px 18px}
+  .btn.lar{background:var(--lar);box-shadow:none} .btn.lar:hover{background:#115ea3}
+  .btn.azu{background:var(--azu);box-shadow:none} .btn.rox{background:var(--rox);box-shadow:none}
+  .btn:hover{transform:none;box-shadow:var(--sombra2)}
+  .faixa{background:linear-gradient(135deg,#0c3b5e,#0f6cbd);border-radius:8px;font-weight:600;
+         font-family:'Cascadia Mono',Consolas,monospace}
+  .faixa em{color:#a9d3f5}
+  .fx{border-radius:10px} .fx .h{font-weight:600;letter-spacing:.4px}
+  .fx .nn{font-weight:600} .fx .b .ex{font-weight:600}
+  .subnav button{font-weight:600}
+  .kpi .n{font-weight:600}
+  th{background:#f3f4f9;font-weight:600}
+  .hero{background:linear-gradient(120deg,#0c3b5e,#0f6cbd 60%,#5b5fc7)}
+  .relBarra{background:linear-gradient(120deg,#0c3b5e,#0f6cbd)}
+  .relBarra button{background:rgba(255,255,255,.14);display:inline-flex;align-items:center;gap:6px;font-weight:500}
+  .relBarra button:hover{background:rgba(255,255,255,.24)}
+  .relBarra button.pri{background:#fff;color:var(--lar-d)} .relBarra button.pri:hover{background:var(--lar-l)}
+  .relBarra .tit{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+  input,select,textarea{border:1px solid #d1d1db;border-radius:6px}
+  input:focus,select:focus,textarea:focus{border-color:var(--lar);box-shadow:0 0 0 3px rgba(15,108,189,.15)}
+  .zona{border:1.5px dashed #c7cbe0}
+  .zona:hover,.zona.hover{border-color:var(--lar);background:var(--lar-l)}
+  .linkTut{color:var(--lar)} .linkTut:hover{color:var(--lar-d)}
+  .regrasMP{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px}
+  .regrasMP>div{background:var(--fundo);border:1px solid var(--linha);border-radius:10px;padding:14px 16px}
+  .regrasMP b{display:block;font-size:13.5px;margin-bottom:4px;color:var(--lar-d)}
+  .regrasMP span{font-size:13px;color:var(--sub);line-height:1.55}
+  #a1 .tabs{margin-bottom:16px}
+
+  /* ═══ CORES DOS CAMPOS (iguais à imagem) ═══ */
+  :root{
+    --fa:#3b82f6; --fa-l:#e8f2fe; --fa-d:#1d4ed8;
+    --fl:#f97316; --fl-l:#fff1e3; --fl-d:#c2410c;
+    --fr:#a855f7; --fr-l:#f5edfe; --fr-d:#7e22ce;
+    --fm:#f5b014; --fm-l:#fef7e4; --fm-d:#b45309;
+    --fv:#22c55e; --fv-l:#e8f8ee; --fv-d:#15803d;
+  }
+
+  /* ajustes v16 */
+  #subnavMP{grid-template-columns:repeat(7,1fr)}
+  @media(max-width:1150px){#subnavMP{grid-template-columns:repeat(4,1fr)}}
+  nav button .tx span{display:none}
+  .faixa{background:#1f2328 !important;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+  .faixa em{color:#fff}
+  /* ajustes v17 */
+  .sobre{margin-top:8px;padding:0 6px}
+  .sobreBt{border:0;background:none;padding:2px 0;cursor:pointer;font:inherit;font-size:10.5px;color:#9aa3ad}
+  .sobreBt:hover{color:var(--sub);text-decoration:underline}
+  .sobreTx{display:none;font-size:10px;color:#9aa3ad;line-height:1.6;margin-top:4px}
+  .sobre.on .sobreTx{display:block}
+  .sobreTx a{color:#9aa3ad}
+  .sobreTx a:hover{color:var(--lar)}
+  @media(max-width:860px){.sobre{display:none}}
+  .mc label{font-size:12px;min-height:26px}
+  .mc input,.combo input{font-size:13px}
+  @media(min-width:861px){
+    body.regrasFixa .app{height:100vh;overflow:hidden}
+    body.regrasFixa main{height:100vh;overflow:hidden;display:flex;flex-direction:column}
+    body.regrasFixa #a1.on{display:flex;flex-direction:column;flex:1;min-height:0}
+    body.regrasFixa #a1 .tabs{align-self:flex-start}
+    body.regrasFixa #a1 .painel.on{display:flex;flex-direction:column;flex:1;min-height:0}
+    body.regrasFixa #a1 .card.plano{flex:1;min-height:0;display:flex;flex-direction:column;margin-bottom:0}
+    body.regrasFixa #a1 .subcorpo{flex:1;height:auto;min-height:0}
+  }
 </style>
 <style id="cssRelatorio"></style>
 </head>
@@ -393,23 +508,31 @@
 
   <aside>
     <div class="marca">
-      <div class="logo">SOP</div>
-      <div><b>Nomenclatura</b><span>Arquivos de projeto</span></div>
+      <div class="logo">OP</div>
+      <div><b>Nomenclatura</b></div>
     </div>
     <nav>
       <button id="b1" class="on" data-a="a1">
-        <span class="ic">📐</span><span class="tx"><b>Regras</b><span>Estrutura e campos</span></span></button>
+        <span class="ic"><svg class="ico" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M8 7h8M8 11h6"/></svg></span><span class="tx"><b>Regras</b></span></button>
       <button id="b2" data-a="a2">
-        <span class="ic">🧩</span><span class="tx"><b>Montar nome</b><span>Gerar exemplo</span></span></button>
+        <span class="ic"><svg class="ico" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><path d="M17.25 14v6.5M14 17.25h6.5"/></svg></span><span class="tx"><b>Montar nome</b></span></button>
       <button id="b3" data-a="a3">
-        <span class="ic">✓</span><span class="tx"><b>Verificador</b><span>Validar e relatar</span></span></button>
+        <span class="ic"><svg class="ico" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></span><span class="tx"><b>Verificador</b></span></button>
       <button id="b4" data-a="a4" class="oculto">
-        <span class="ic">📝</span><span class="tx"><b>Relatório</b><span id="b4sub">Editar e imprimir</span></span></button>
+        <span class="ic"><svg class="ico" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span><span class="tx"><b>Relatório</b><span id="b4sub" style="display:none"></span></span></button>
     </nav>
     <button class="btBase liberado" id="btBase" onclick="abrirBase()">
-      <span class="ic" id="btBaseIc">🗄️</span>
+      <span class="ic" id="btBaseIc"><svg class="ico" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v13c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8v-13"/><path d="M4.5 12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8"/></svg></span>
       <span><b>Banco de dados</b><span class="st" id="btBaseSt">Atualizar base</span></span>
     </button>
+    <div class="sobre">
+      <button class="sobreBt" onclick="this.parentNode.classList.toggle('on')">Sobre</button>
+      <div class="sobreTx">Desenvolvido por<br>
+        SOP - DPPE - Renan Barros Ribeiro<br>
+        2026<br>Versão 1 · beta<br>
+        Dúvidas/sugestões:<br>
+        <a href="mailto:renan-ribeiro@sop.rs.gov.br">renan-ribeiro@sop.rs.gov.br</a></div>
+    </div>
   </aside>
 
   <main>
@@ -418,29 +541,41 @@
   <div class="aba on" id="a1">
     <div class="cabeca">
       <div><h1>Regras de Nomenclatura</h1>
-        <p>São 9 campos, sempre nesta ordem, separados por subtraço.</p>
-        <button class="linkTut" onclick="tourIniciar('a1')">Como usar esta aba</button></div>
+                <button class="linkTut" onclick="tourIniciar('a1')">Como usar esta aba</button></div>
       <div class="pill" id="pillBase"></div>
     </div>
 
-    <div class="card">
-      <h2>Estrutura</h2>
-      <p class="sub">Os traços separam palavras dentro de um campo; o subtraço separa um campo do outro.</p>
-      <div class="estr e9" id="estrutura"></div>
-      <div class="exemplo"><div class="rot">Exemplo:</div><div class="faixa" id="fx1"></div></div>
+    <div class="tabs" id="tabsRegras">
+      <button class="on" onclick="irRegra('r9')">Estrutura</button>
+      <button onclick="irRegra('r7')">Módulos Padrão</button>
     </div>
 
-    <div class="card">
-      <h2>Estrutura para Módulos Padrões</h2>
-      <p class="sub">Módulos padronizados seguem estrutura própria, de 7 campos — sem município, edificação, SGO ou setorização.</p>
-      <div class="estr e7" id="estruturaMP"></div>
-      <div class="exemplo"><div class="rot">Exemplo:</div><div class="faixa" id="fx2"></div></div>
+    <div class="painel on" id="r9">
+      <div class="card">
+        <h2>Estrutura</h2>
+        <p class="sub">Os traços separam palavras dentro de um campo; o subtraço separa um campo do outro.</p>
+        <div class="estr e9" id="estrutura"></div>
+        <div class="exemplo"><div class="rot">Exemplo</div><div class="faixa" id="fx1"></div></div>
+      </div>
+      <div class="card plano">
+        <div class="subnav" id="subnav"></div>
+        <div class="subbusca" id="subbusca"></div>
+        <div class="subcorpo"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+      </div>
     </div>
 
-    <div class="card plano">
-      <div class="subnav" id="subnav"></div>
-      <div class="subbusca" id="subbusca"></div>
-      <div class="subcorpo"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+    <div class="painel" id="r7">
+      <div class="card">
+        <h2>Módulos Padrão</h2>
+        <p class="sub">Módulos padronizados seguem estrutura própria, de 7 campos — sem município, edificação, SGO ou setorização.</p>
+        <div class="estr e7" id="estruturaMP"></div>
+        <div class="exemplo"><div class="rot">Exemplo</div><div class="faixa" id="fx2"></div></div>
+      </div>
+      <div class="card plano">
+        <div class="subnav" id="subnavMP"></div>
+        <div class="subbusca" id="subbuscaMP"></div>
+        <div class="subcorpo"><table><thead id="theadMP"></thead><tbody id="tbodyMP"></tbody></table></div>
+      </div>
     </div>
   </div>
 
@@ -448,8 +583,7 @@
   <div class="aba" id="a2">
     <div class="cabeca">
       <div><h1>Montar o nome do arquivo</h1>
-        <p>Preencha os campos e o nome é construído já dentro do padrão.</p>
-        <button class="linkTut" onclick="tourIniciar('a2')">Como usar esta aba</button></div>
+                <button class="linkTut" onclick="tourIniciar('a2')">Como usar esta aba</button></div>
       <div class="pill" id="pillProg">0 de 9 campos</div>
     </div>
 
@@ -467,7 +601,7 @@
         <div class="exemplo" style="margin-top:8px"><div class="faixa" id="montado9">—</div></div>
         <div class="estr e9" id="prev9" style="margin-top:14px"></div>
         <div class="linha" style="margin-top:12px;justify-content:center">
-          <button class="btn lar" id="btCopiar9" onclick="copiar('montado9')">📋 Copiar nome</button>
+          <button class="btn lar" id="btCopiar9" onclick="copiar('montado9')"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg> Copiar nome</button>
           <button class="btn cinza" onclick="limpar9()">Limpar campos</button>
         </div>
         <div id="aviso9"></div>
@@ -483,7 +617,7 @@
         <div class="exemplo" style="margin-top:8px"><div class="faixa" id="montado7">—</div></div>
         <div class="estr e7" id="prev7" style="margin-top:14px"></div>
         <div class="linha" style="margin-top:12px;justify-content:center">
-          <button class="btn lar" id="btCopiar7" onclick="copiar('montado7')">📋 Copiar nome</button>
+          <button class="btn lar" id="btCopiar7" onclick="copiar('montado7')"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg> Copiar nome</button>
           <button class="btn cinza" onclick="limpar7()">Limpar campos</button>
         </div>
         <div id="aviso7"></div>
@@ -495,8 +629,7 @@
   <div class="aba" id="a3">
     <div class="cabeca">
       <div><h1>Verificador de nomenclatura</h1>
-        <p>Confira nomes na tela ou gere o relatório a partir do registro de arquivos.</p>
-        <button class="linkTut" onclick="tourIniciar('a3')">Como usar esta aba</button></div>
+                <button class="linkTut" onclick="tourIniciar('a3')">Como usar esta aba</button></div>
     </div>
 
     <div class="card vt">
@@ -504,7 +637,7 @@
       <p class="sub">Cole um ou vários nomes, um por linha, e veja o resultado.</p>
       <textarea id="lote" rows="3" placeholder="Digite ou cole aqui"></textarea>
       <div class="linha">
-        <button class="btn azu" onclick="verificarTela()">✓ Verificar</button>
+        <button class="btn azu" onclick="verificarTela()"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> Verificar</button>
         <button class="btn cinza" onclick="limparTela()">Limpar</button>
       </div>
       <div id="saidaTela"></div>
@@ -519,9 +652,9 @@
       </div>
       <input type="file" id="arq" accept=".xlsx,.csv,.txt" style="display:none" onchange="lerArquivo(this.files[0])">
       <div id="resumo"></div>
-      <div class="linha">
-        <button class="btn rox" id="btGerar" onclick="gerarPDF()" disabled>📄 Baixar PDF</button>
-        <button class="btn azu" id="btGerarHtml" onclick="gerarRelatorio()" disabled>✏️ Editar e imprimir</button>
+      <div class="linha" id="acoesReg">
+        <button class="btn rox" id="btGerar" onclick="gerarPDF()" disabled><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg> Baixar PDF</button>
+        <button class="btn azu" id="btGerarHtml" onclick="gerarRelatorio()" disabled><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg> Editar e imprimir</button>
         <button class="btn cinza" onclick="limparRegistro()">Limpar</button>
       </div>
       <div class="nota"><b>Baixar PDF</b> gera o arquivo direto, pronto para arquivar.
@@ -535,13 +668,13 @@
   <!-- ══════════ ABA 4 · RELATÓRIO EDITÁVEL ══════════ -->
   <div class="aba" id="a4">
     <div class="relBarra">
-      <span class="tit">✏️ Modo edição</span>
-      <button class="pri" onclick="relImprimir()">🖨 Imprimir / Salvar PDF</button>
-      <button onclick="relRevalidarTudo()">✓ Revalidar tudo</button>
+      <span class="tit"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg> Modo edição</span>
+      <button class="pri" onclick="relImprimir()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg> Imprimir / Salvar PDF</button>
+      <button onclick="relRevalidarTudo()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> Revalidar tudo</button>
       <button id="btRelValidos" onclick="relAlternarValidos(this)">Mostrar válidos</button>
       <button onclick="relNovaObs()">+ Observação</button>
-      <button onclick="relBaixarHTML()">💾 Salvar cópia</button>
-      <button onclick="relRestaurar()">↺ Desfazer tudo</button>
+      <button onclick="relBaixarHTML()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M8 3v5h7V3M8 21v-7h8v7"/></svg> Salvar cópia</button>
+      <button onclick="relRestaurar()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg> Desfazer tudo</button>
       <button class="linkTut claro" onclick="tourIniciar('a4')">Como usar esta aba</button>
       <span class="aviso-rev" id="avisoRev">alterado</span>
       <span class="dica">Editou um nome? A verificação refaz sozinha ao sair do campo.</span>
@@ -593,7 +726,7 @@
                onchange="carregarBase(this.files[0])">
         <div id="baseMsg"></div>
         <div class="linha">
-          <button class="btn rox" id="btBaixarIndex" onclick="baixarIndexAtualizado()" disabled>⬇ Baixar index.html atualizado</button>
+          <button class="btn rox" id="btBaixarIndex" onclick="baixarIndexAtualizado()" disabled><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg> Baixar index.html atualizado</button>
           <button class="btn cinza" onclick="restaurarBase()">Restaurar base original</button>
           <button class="btn cinza" onclick="fecharBase()">Fechar</button>
         </div>
@@ -790,7 +923,7 @@ function validarLote(itens){
 const TAB_SGO=[{cod:'202500843',nome:'N° do SGO/Demanda — apenas números.'},
                {cod:'XXXXXXXXX',nome:'Nove letras X, quando ainda não há n° atribuído.'}];
 const TAB_REV=[{cod:'R00 - R99',nome:'Letra R seguida de dois dígitos, sequencial a cada revisão.'}];
-const CORES=['azu','lar','rox','ama','ver','azu','rox','lar','ama'];
+const CORES=['fa','fl','fr','fm','fv','fa','fr','fl','fm'];
 const cor=i=>`var(--${CORES[i%9]})`, corL=i=>`var(--${CORES[i%9]}-l)`, corD=i=>`var(--${CORES[i%9]}-d)`;
 
 const CAMPOS=[
@@ -841,6 +974,56 @@ function pintarEstrutura(){
   document.getElementById('pillBase').textContent =
     `${D.municipios.length} municípios · ${D.escolas.length} escolas · ${D.disciplinas.length} disciplinas`;
   abrirCampo(0);
+  document.getElementById('subnavMP').innerHTML = CAMPOS_MP.map((c,i)=>
+    `<button onclick="abrirCampoMP(${i})"><span class="sn">${c.n}</span>${c.curto}</button>`).join('');
+  abrirCampoMP(CAMPO_MP||0);
+}
+const TAB_MPCOD=[{cod:'AEA02',nome:'Código do módulo — campo livre, letras MAIÚSCULAS e números, sem traço.'}];
+const TAB_MPNOME=[{cod:'QUADRA-COBERTA',nome:'Nome do módulo — campo livre, em MAIÚSCULAS, com traço (-) entre as palavras.'}];
+const CAMPOS_MP=[
+  {n:1,curto:'Ativ.<br>demandante',fonte:'atividades',ph:'Buscar atividade ou código…'},
+  {n:2,curto:'Código',fonte:'_mpcod',ph:'Buscar…'},
+  {n:3,curto:'Nome do<br>módulo',fonte:'_mpnome',ph:'Buscar…'},
+  {n:4,curto:'Etapa',fonte:'etapas',ph:'Buscar etapa ou código…'},
+  {n:5,curto:'Disciplina',fonte:'disciplinas',ph:'Buscar disciplina ou código…'},
+  {n:6,curto:'Conteúdo',fonte:'conteudos',ph:'Buscar conteúdo ou código…'},
+  {n:7,curto:'Revisão',fonte:'_rev',ph:'Buscar revisão…'}
+];
+let CAMPO_MP=0; const BUSCAS_MP={};
+function abrirCampoMP(i){
+  CAMPO_MP=i; const c=CAMPOS_MP[i];
+  document.querySelectorAll('#subnavMP button').forEach((b,j)=>{
+    const on=j===i;
+    b.style.background=on?cor(j):'var(--fundo)';
+    b.style.color=on?'#fff':'var(--sub)';
+    b.style.boxShadow=on?'0 4px 12px rgba(43,52,69,.16)':'none';
+  });
+  document.getElementById('subbuscaMP').innerHTML=
+    `<input id="buscaMP" placeholder="${c.ph}" oninput="renderTabMP()" value="${esc(BUSCAS_MP[i]||'')}" style="flex:1;min-width:220px;max-width:380px">
+     <button class="btn cinza" onclick="document.getElementById('buscaMP').value='';renderTabMP()">Limpar</button>
+     <span class="cont" id="contadorMP"></span>`;
+  renderTabMP();
+}
+function renderTabMP(){
+  const c=CAMPOS_MP[CAMPO_MP];
+  const bq=document.getElementById('buscaMP'); const termo=bq?bq.value:'';
+  BUSCAS_MP[CAMPO_MP]=termo; const q=norm(termo);
+  const livre=['_mpcod','_mpnome','_rev'].includes(c.fonte);
+  const fonte={_mpcod:TAB_MPCOD,_mpnome:TAB_MPNOME,_rev:TAB_REV}[c.fonte]||D[c.fonte];
+  const temObs=c.fonte==='conteudos';
+  const rotB={atividades:'Atividade demandante',etapas:'Etapa',disciplinas:'Disciplina',
+              conteudos:'Conteúdo',_mpcod:'Regra',_mpnome:'Regra',_rev:'Significado'}[c.fonte];
+  let l=fonte;
+  if(q) l=l.filter(x=>norm(x.cod).includes(q)||norm(x.nome||'').includes(q)||(temObs&&norm(x.obs||'').includes(q)));
+  document.getElementById('theadMP').innerHTML=
+    `<tr><th style="width:170px">${livre?'Exemplo':'Código'}</th><th>${rotB}</th>${temObs?'<th style="width:290px">Observação</th>':''}</tr>`;
+  document.getElementById('tbodyMP').innerHTML=l.map(x=>
+    `<tr><td class="c">${realce(x.cod,termo)}${x.seq?'<span class="badge">'+(NUM_CONT[x.cod.toUpperCase()]==='OBRIGATORIO'?'nº obrigatório':'nº se houver mais de 1')+'</span>':''}</td>
+     <td>${x.nome?realce(x.nome,termo):'—'}</td>
+     ${temObs?`<td style="font-size:11.5px;color:var(--sub)">${realce(x.obs||'',termo)}</td>`:''}</tr>`).join('')||
+    `<tr><td colspan="3" style="color:var(--sub)">Nenhum resultado para “${esc(termo)}”.</td></tr>`;
+  const ct=document.getElementById('contadorMP');
+  if(ct) ct.textContent=`${l.length} registro${l.length===1?'':'s'}`;
 }
 
 function abrirCampo(i){
@@ -1177,6 +1360,11 @@ function limpar7(){
   montar7();
 }
 
+function irRegra(id){
+  document.querySelectorAll('#tabsRegras button').forEach((b,i)=>
+    b.classList.toggle('on', (i===0)===(id==='r9')));
+  document.querySelectorAll('#a1 .painel').forEach(p=>p.classList.toggle('on',p.id===id));
+}
 function irMont(id){
   document.querySelectorAll('#a2 .tabs button').forEach((b,i)=>
     b.classList.toggle('on', (i===0)===(id==='p9')));
@@ -1712,7 +1900,7 @@ function gerarPDF(){
   const d=dadosRelatorio(), p=novoPDF();
   p.novaPagina();
 
-  p.ret(p.ESQ,p.y-26,p.UTIL,26,'#f97316');
+  p.ret(p.ESQ,p.y-26,p.UTIL,26,'#0f6cbd');
   p.txt(p.ESQ+12,p.y-18,'RELATÓRIO DE VERIFICAÇÃO DE NOMENCLATURA',13,'F2','#ffffff');
   p.y-=26;
   p.ret(p.ESQ,p.y-16,p.UTIL,16,'#ffffff');
@@ -1785,7 +1973,7 @@ function gerarPDF(){
 const CSS_REL = `
 .relwrap{font-family:'Segoe UI',Arial,sans-serif;font-size:9pt;color:#2b3445;background:#fff}
 .relwrap .cabr{border-radius:10px;overflow:hidden;margin-bottom:6mm;border:1px solid #eef1f6}
-.relwrap .cabr .t{background:#f97316;color:#fff;padding:9px 14px;font-size:13pt;font-weight:700}
+.relwrap .cabr .t{background:#0f6cbd;color:#fff;padding:9px 14px;font-size:13pt;font-weight:700}
 .relwrap .cabr .s{padding:7px 14px;font-size:8.5pt;color:#7d8da5;font-style:italic;border-bottom:1px solid #eef1f6}
 .relwrap .cabr .tot{padding:9px 14px;font-size:10pt;font-weight:700;background:#f4f7fc}
 .relwrap .cabr .tot span{margin-right:18px}
@@ -1811,8 +1999,8 @@ const CSS_REL = `
 .relwrap .rodr{margin-top:8mm;padding-top:5px;border-top:1px solid #eef1f6;font-size:7.5pt;
       color:#7d8da5;display:flex;justify-content:space-between}
 .relwrap [contenteditable="true"]{border-bottom:1px dotted #cfd8e6;cursor:text}
-.relwrap [contenteditable="true"]:hover{background:#fffaf0;border-bottom-color:#f97316}
-.relwrap [contenteditable="true"]:focus{background:#fff8e8;outline:2px solid #f97316;border-bottom-color:transparent}
+.relwrap [contenteditable="true"]:hover{background:#f5f9fe;border-bottom-color:#0f6cbd}
+.relwrap [contenteditable="true"]:focus{background:#eef5fd;outline:2px solid #0f6cbd;border-bottom-color:transparent}
 .relwrap tbody tr:hover td{background:#f8fafd}
 .relwrap .dica-ed{display:flex;gap:8px;align-items:center;background:#fef7e4;color:#b45309;
       border-radius:8px;padding:8px 12px;font-size:8.5pt;margin-bottom:4mm;line-height:1.5}
@@ -2032,16 +2220,16 @@ body{margin:0;background:#e9edf4;font-family:'Segoe UI',Arial,sans-serif;padding
 .barra button{background:#3f4a5f;color:#fff;border:0;padding:7px 13px;border-radius:8px;
   font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
 .barra button:hover{background:#505d75}
-.barra button.pri{background:#f97316}.barra button.pri:hover{background:#fb8c3c}
-.selo{background:#f97316;color:#fff;padding:3px 9px;border-radius:20px;font-size:11px;
+.barra button.pri{background:#0f6cbd}.barra button.pri:hover{background:#115ea3}
+.selo{background:#0f6cbd;color:#fff;padding:3px 9px;border-radius:20px;font-size:11px;
   font-weight:700;display:none}.selo.on{display:inline-block}
 .folha{max-width:840px;margin:22px auto;background:#fff;border-radius:12px;
   box-shadow:0 6px 24px rgba(43,52,69,.13);padding:34px 38px}
 ${CSS_REL}
-.relwrap [contenteditable="true"]:hover{background:#fffaf0;outline:1px dashed #f7c68a}
-.relwrap [contenteditable="true"]:focus{background:#fff8e8;outline:2px solid #f97316}
+.relwrap [contenteditable="true"]:hover{background:#f5f9fe;outline:1px dashed #b4d6fa}
+.relwrap [contenteditable="true"]:focus{background:#eef5fd;outline:2px solid #0f6cbd}
 .relwrap tr.revalidado td{background:#fffbeb}
-.relwrap tr.revalidado td:first-child{box-shadow:inset 3px 0 0 #f97316}
+.relwrap tr.revalidado td:first-child{box-shadow:inset 3px 0 0 #0f6cbd}
 @media print{
   .barra{display:none !important}
   body{background:#fff;padding:0}
@@ -2054,13 +2242,13 @@ ${CSS_REL}
 @media(max-width:860px){.folha{margin:12px;padding:20px}}
 ${S}/style></head><body>
 <div class="barra">
-  <span class="tit">✏️ Modo edição</span>
-  <button class="pri" onclick="window.print()">🖨 Imprimir / Salvar PDF</button>
-  <button onclick="revalidarTudo()">✓ Revalidar tudo</button>
+  <span class="tit"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg> Modo edição</span>
+  <button class="pri" onclick="window.print()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg> Imprimir / Salvar PDF</button>
+  <button onclick="revalidarTudo()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> Revalidar tudo</button>
   <button id="btv" onclick="alternarValidos(this)">Mostrar válidos</button>
   <button onclick="novaObs()">+ Observação</button>
-  <button onclick="salvarCopia()">💾 Salvar cópia</button>
-  <button onclick="restaurar()">↺ Desfazer tudo</button>
+  <button onclick="salvarCopia()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M8 3v5h7V3M8 21v-7h8v7"/></svg> Salvar cópia</button>
+  <button onclick="restaurar()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg> Desfazer tudo</button>
   <span class="selo" id="selo"></span>
   <span class="dica">Clique em qualquer texto para editar. Corrigiu um nome? A verificação refaz ao sair do campo.</span>
 </div>
@@ -2122,7 +2310,7 @@ function revalidarTudo(){
     });
   });
   totais(); editado=true;
-  selo(mudou? mudou+' linha(s) mudaram de situação' : n+' linha(s) conferidas', mudou?'#f97316':'#15803d');
+  selo(mudou? mudou+' linha(s) mudaram de situação' : n+' linha(s) conferidas', mudou?'#0f6cbd':'#15803d');
 }
 function totais(){
   var doc=document.getElementById('relDoc'), tot=0, ok=0;
@@ -2305,18 +2493,24 @@ ${CSS_REL}
    elementos da aba aberta — nunca troca de aba no meio do caminho. */
 const TOUR_ABAS = {
   a1:[
-    { sel:'#estrutura', pos:'baixo', tit:'A estrutura',
-      txt:'São 9 campos separados por subtraço (_). Dentro de um campo, use traço (-).' },
-    { sel:'#subnav', pos:'baixo', tit:'Consultar os códigos',
-      txt:'Escolha o campo aqui para ver a tabela de códigos válidos dele.' },
-    { sel:'#subbusca', pos:'baixo', tit:'Achar rápido',
+    { sel:'#tabsRegras', pos:'baixo', tit:'Escolha a estrutura',
+      txt:'Selecione Estrutura ou Módulos Padrão.' },
+    { sel:'#a1 .painel.on .estr', pos:'baixo', tit:'A estrutura',
+      txt:'Os campos são separados por subtraço (_). Dentro de um campo, use traço (-).' },
+    { sel:'#a1 .painel.on .subnav', pos:'baixo', tit:'Consultar os códigos',
+      txt:'Escolha o campo para ver a tabela de códigos válidos dele.' },
+    { sel:'#a1 .painel.on .subbusca', pos:'baixo', tit:'Achar rápido',
       txt:'Busque por código ou por nome — a tabela filtra enquanto você digita.' }
   ],
   a2:[
-    { sel:'#a2 .tabs', pos:'baixo', tit:'Preencha em ordem',
-      txt:'Vá de campo em campo. Cada um aceita busca por código ou por nome.' },
-    { sel:'#pillProg', pos:'esq', tit:'Nome pronto',
-      txt:'O contador mostra o que falta. Com tudo preenchido, é só copiar o nome montado.' }
+    { sel:'#a2 .tabs', pos:'baixo', tit:'Escolha a estrutura',
+      txt:'Selecione Estrutura ou Estrutura para Módulos Padrões.' },
+    { sel:'#a2 .painel.on .montagem', pos:'baixo', tit:'Selecione os campos',
+      txt:'Preencha campo a campo. Cada um aceita busca por código ou por nome.' },
+    { sel:'#a2 .painel.on .faixa', pos:'baixo', tit:'Nome será montado',
+      txt:'O nome é construído aqui conforme você preenche os campos.' },
+    { sel:'#a2 .painel.on .linha', pos:'cima', tit:'Copiar ou limpar',
+      txt:'Com tudo preenchido, copie o nome. Use Limpar campos para recomeçar.' }
   ],
   a3:[
     { sel:'#lote', pos:'baixo', tit:'Conferir na tela',
@@ -2324,7 +2518,9 @@ const TOUR_ABAS = {
     { sel:'#saidaTela', pos:'cima', tit:'Resultado',
       txt:'Cada nome aparece como válido ou inválido, com os erros. Corrija o texto acima e clique em Verificar de novo. Use o ✕ para tirar da lista.' },
     { sel:'#zona', pos:'baixo', tit:'Conferir em lote',
-      txt:'Arraste o registro de arquivos do ACC (.xlsx ou .csv) para conferir tudo de uma vez.' }
+      txt:'Arraste o registro de arquivos do ACC (.xlsx ou .csv) para conferir tudo de uma vez.' },
+    { sel:'#acoesReg', pos:'cima', tit:'Baixar, editar ou limpar',
+      txt:'Baixe o PDF, use Editar e imprimir para ajustar o relatório, ou Limpar para recomeçar.' }
   ],
   a4:[
     { sel:'#relDoc .dica-ed', pos:'baixo', tit:'Tudo editável',
@@ -2431,6 +2627,7 @@ function irAba(id){
   if(tourAbaAtual && tourAbaAtual!==id) tourFechar();
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.a===id));
   document.querySelectorAll('.aba').forEach(d=>d.classList.toggle('on',d.id===id));
+  document.body.classList.toggle('regrasFixa', id==='a1');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>irAba(b.dataset.a)));
@@ -2460,6 +2657,7 @@ zonaB.addEventListener('drop',e=>{ if(e.dataTransfer.files[0]) carregarBase(e.da
 
 
 let BASE_OFICIAL_OK = false;
+document.body.classList.add('regrasFixa');
 restaurarDoArmazenamento();
 pintarEstrutura(); montarForm9(); montarForm7();
 marcarInfoBase(document.getElementById('baseInfo').textContent?null:'');
