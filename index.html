@@ -654,11 +654,11 @@
       <div id="resumo"></div>
       <div class="linha" id="acoesReg">
         <button class="btn rox" id="btGerar" onclick="gerarPDF()" disabled><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg> Baixar PDF</button>
-        <button class="btn azu" id="btGerarHtml" onclick="gerarRelatorio()" disabled><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg> Editar e imprimir</button>
+        <button class="btn azu" id="btGerarHtml" onclick="gerarRelatorio()" disabled><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg> Editar</button>
         <button class="btn cinza" onclick="limparRegistro()">Limpar</button>
       </div>
       <div class="nota"><b>Baixar PDF</b> gera o arquivo direto, pronto para arquivar.
-    <b>Editar e imprimir</b> monta o relatório na aba <b>Relatório</b>, com todos os textos editáveis:
+    <b>Editar</b> monta o relatório na aba <b>Relatório</b>, com todos os textos editáveis:
     corrija o nome de um arquivo e a verificação refaz sozinha ao sair do campo, com os totais
     recalculados. Também dá para excluir e acrescentar linhas, incluir observações e mostrar os
     arquivos válidos. Ao final, use <b>Imprimir / Salvar PDF</b>.</div>
@@ -2014,7 +2014,11 @@ const CSS_REL = `
       cursor:pointer;font:inherit;font-size:7pt;font-weight:700;float:right}
 .relwrap .bg:hover{background:#fdeded}
 .relwrap .maisl{padding:6px 0 0}
-.relwrap th.acao,.relwrap td.acao{width:82px;text-align:center;padding:5px}
+.relwrap th.acao,.relwrap td.acao{width:170px;text-align:center;padding:5px;white-space:nowrap}
+.relwrap .bs{border:0;padding:4px 10px;border-radius:6px;cursor:pointer;font:inherit;font-size:7.5pt;
+      font-weight:700;white-space:nowrap;margin-right:4px}
+.relwrap .bs.val{background:#e8f8ee;color:#15803d} .relwrap .bs.val:hover{background:#c6efd4}
+.relwrap .bs.inv{background:#fef7e4;color:#b45309} .relwrap .bs.inv:hover{background:#fde7b0}
 .relwrap.soInvalidos tr.ok{display:none}
 .relwrap.soInvalidos .grupo.todosok{display:none}
 `;
@@ -2032,7 +2036,7 @@ function corpoRelatorio(d){
       return `<tr class="${r.ok?'ok':'er'}">
         <td class="cn" contenteditable="true">${esc(r.bruto)}</td>
         <td contenteditable="true">${txt}</td>
-        <td class="acao"><button class="bx" onclick="relApagarLinha(this)" title="Excluir esta linha">✕ Excluir</button></td></tr>`;
+        <td class="acao">${botaoStatus(r.ok)}<button class="bx" onclick="relApagarLinha(this)" title="Excluir esta linha">✕ Excluir</button></td></tr>`;
     }).join('');
     corpo+=`<div class="grupo${inv.length?'':' todosok'}">
       <div class="gcab"><button class="bg" onclick="relApagarGrupo(this)" title="Excluir a pasta inteira do relatório">✕ Excluir pasta</button>${g.link?`<a href="${esc(g.link)}" target="_blank" rel="noopener">`:''}<span contenteditable="true">PASTA: ${esc(titulo)}</span>${g.link?'</a>':''}
@@ -2047,7 +2051,7 @@ function corpoRelatorio(d){
 
   return `<div class="dica-ed">✏️ <span>Todo texto sublinhado é editável — clique e digite.
     Ao corrigir um nome e sair do campo, a verificação refaz sozinha.
-    Use <b>✕ Excluir</b> para tirar uma linha e <b>✕ Excluir pasta</b> para tirar o bloco inteiro.
+    Ao clicar num texto, aparece a barra de cor, negrito, itálico e sublinhado. Use <b>✕ Excluir</b> para tirar uma linha e <b>✕ Excluir pasta</b> para tirar o bloco inteiro.
     Nada disso aparece na impressão.</span></div>
 <div class="cabr">
   <div class="t" contenteditable="true">RELATÓRIO DE VERIFICAÇÃO DE NOMENCLATURA</div>
@@ -2056,21 +2060,43 @@ function corpoRelatorio(d){
     <b class="n-ok">${validos}</b></span><span class="iv">Inválidos: <b class="n-er">${invalidos}</b></span></div>
 </div>
 ${corpo}
-<div class="obs">
-  <div class="ot" contenteditable="true">Observações</div>
-  <div class="oc" contenteditable="true">—</div>
-</div>
 <div class="rodr"><span contenteditable="true">SOP · Estrutura e Nomenclatura</span><span contenteditable="true">Gerado em ${carimbo}</span></div>`;
+}
+
+/* ══════════ VALIDAR / INVALIDAR MANUALMENTE ══════════ */
+function botaoStatus(ok){
+  return ok
+    ? '<button class="bs inv" onclick="relAlternarStatus(this)" title="Marcar como inválido">✗ Invalidar</button>'
+    : '<button class="bs val" onclick="relAlternarStatus(this)" title="Marcar como válido">✓ Validar</button>';
+}
+function relAjustarBotao(tr){
+  const b=tr.querySelector('.bs'); if(!b) return;
+  const ok=tr.classList.contains('ok');
+  b.className='bs '+(ok?'inv':'val');
+  b.textContent= ok?'✗ Invalidar':'✓ Validar';
+  b.title= ok?'Marcar como inválido':'Marcar como válido';
+}
+function relAlternarStatus(b){
+  const tr=b.closest('tr'); if(!tr) return;
+  const ficaOk=!tr.classList.contains('ok');
+  tr.dataset.manual = ficaOk?'ok':'er';
+  tr.classList.toggle('ok',ficaOk); tr.classList.toggle('er',!ficaOk);
+  const res=tr.children[1];
+  if(res) res.innerHTML = ficaOk ? 'Validado manualmente.' : '<b>INVALIDADO</b> manualmente.';
+  relAjustarBotao(tr);
+  relAtualizarTotais();
 }
 
 /* ══════════ REVALIDAÇÃO AO EDITAR ══════════ */
 function relPintarLinha(tr, r){
+  if(tr.dataset.manual) return;   /* decisão manual prevalece */
   tr.classList.toggle('ok', r.ok);
   tr.classList.toggle('er', !r.ok);
   const res = tr.children[1];
   if(res) res.innerHTML = r.ok
     ? 'Nomenclatura conforme o padrão.'
     : '<b>ERRO</b> '+r.erros.map(e=>'- '+esc(e)).join(' ');
+  relAjustarBotao(tr);
 }
 
 /* revalida todas as linhas de uma pasta em conjunto (regra do número em PRA/CAD/IMG/VIN) */
@@ -2090,6 +2116,7 @@ function relRevalidarGrupo(g){
 /* revalida a partir do nome digitado */
 function relRevalidarLinha(td, marcar){
   const tr = td.closest('tr'); if(!tr) return null;
+  if(marcar) delete tr.dataset.manual;
   const g = tr.closest('.grupo');
   let r;
   if(g) r = relRevalidarGrupo(g).get(tr);
@@ -2143,7 +2170,7 @@ function relNovaLinha(b){
   tr.className='er';
   tr.innerHTML='<td class="cn" contenteditable="true">novo-arquivo</td>'+
     '<td contenteditable="true">descreva aqui</td>'+
-    '<td class="acao"><button class="bx" onclick="relApagarLinha(this)" title="Excluir esta linha">\u2715 Excluir</button></td>';
+    '<td class="acao">'+botaoStatus(false)+'<button class="bx" onclick="relApagarLinha(this)" title="Excluir esta linha">\u2715 Excluir</button></td>';
   tb.appendChild(tr);
   relAtualizarTotais();
   const c=tr.querySelector('td'); c.focus();
@@ -2265,11 +2292,29 @@ function selo(txt,cor){
   el.textContent=txt; el.style.background=cor; el.classList.add('on');
   clearTimeout(tSelo); tSelo=setTimeout(function(){ el.classList.remove('on'); },3400);
 }
+function ajustarBotao(tr){
+  var b=tr.querySelector('.bs'); if(!b) return;
+  var ok=tr.classList.contains('ok');
+  b.className='bs '+(ok?'inv':'val');
+  b.textContent= ok?'✗ Invalidar':'✓ Validar';
+  b.title= ok?'Marcar como inválido':'Marcar como válido';
+}
 function pintar(tr,r){
-  tr.className = (r.ok?'ok':'er') + (tr.classList.contains('revalidado')?' revalidado':'');
+  if(tr.dataset.manual) return;
+  tr.classList.toggle('ok',r.ok); tr.classList.toggle('er',!r.ok);
   var td=tr.children[1];
   if(td) td.innerHTML = r.ok ? 'Nomenclatura conforme o padrão.'
     : '${S}b>ERRO${S}/b> ' + r.erros.map(function(e){ return '- '+esc(e); }).join(' ');
+  ajustarBotao(tr);
+}
+function alternarStatus(b){
+  var tr=b.closest('tr'); if(!tr) return;
+  var ficaOk=!tr.classList.contains('ok');
+  tr.dataset.manual = ficaOk?'ok':'er';
+  tr.classList.toggle('ok',ficaOk); tr.classList.toggle('er',!ficaOk);
+  var td=tr.children[1];
+  if(td) td.innerHTML = ficaOk ? 'Validado manualmente.' : '${S}b>INVALIDADO${S}/b> manualmente.';
+  ajustarBotao(tr); totais(); editado=true;
 }
 function revalGrupo(p,g){
   var vivos=[], nomes=[];
@@ -2287,6 +2332,7 @@ function revalidar(td,marcar){
   var p=pai();
   if(!p){ if(marcar) selo('janela principal fechada — não dá para revalidar','#b91c1c'); return null; }
   var tr=td.parentNode; if(!tr) return null;
+  if(marcar) delete tr.dataset.manual;
   var g=tr.closest('.grupo'); if(!g) return null;
   var r=null;
   revalGrupo(p,g).forEach(function(x){ if(x[0]===tr) r=x[1]; });
@@ -2333,13 +2379,13 @@ function apagarGrupo(b){
   g.remove(); totais(); editado=true;
 }
 /* o HTML do relatório usa os nomes rel* — apontam para as mesmas ações */
-var relApagarLinha=apagarLinha, relApagarGrupo=apagarGrupo, relNovaLinha=novaLinha;
+var relApagarLinha=apagarLinha, relApagarGrupo=apagarGrupo, relNovaLinha=novaLinha, relAlternarStatus=function(b){ alternarStatus(b); };
 function novaLinha(b){
   var tb=b.parentNode.parentNode.querySelector('tbody');
   var tr=document.createElement('tr'); tr.className='er';
   tr.innerHTML='${S}td class="cn" contenteditable="true">novo-arquivo${S}/td>'+
     '${S}td contenteditable="true">descreva aqui${S}/td>'+
-    '${S}td class="acao">${S}button class="bx" onclick="apagarLinha(this)" title="Excluir esta linha">✕ Excluir${S}/button>${S}/td>';
+    '${S}td class="acao">${S}button class="bs val" onclick="alternarStatus(this)" title="Marcar como válido">✓ Validar${S}/button>${S}button class="bx" onclick="apagarLinha(this)" title="Excluir esta linha">✕ Excluir${S}/button>${S}/td>';
   tb.appendChild(tr); totais(); editado=true;
   var c=tr.querySelector('td'); c.focus();
   var sel=document.getSelection(); if(sel) sel.selectAllChildren(c);
@@ -2399,6 +2445,8 @@ document.getElementById('relDoc').addEventListener('keydown',function(e){
   if(td && td.classList && td.classList.contains('cn')){ e.preventDefault(); td.blur(); }
 });
 document.addEventListener('input',function(){ editado=true; });
+${instalarFerramentas.toString().replace(/<\//g,'<\\/')}
+instalarFerramentas(document, document.getElementById('relDoc'), [document.querySelector('.folha')]);
 window.addEventListener('beforeunload',function(e){ if(editado){ e.preventDefault(); e.returnValue=''; } });
 ${S}/script>
 </body></html>`;
@@ -2520,7 +2568,7 @@ const TOUR_ABAS = {
     { sel:'#zona', pos:'baixo', tit:'Conferir em lote',
       txt:'Arraste o registro de arquivos do ACC (.xlsx ou .csv) para conferir tudo de uma vez.' },
     { sel:'#acoesReg', pos:'cima', tit:'Baixar, editar ou limpar',
-      txt:'Baixe o PDF, use Editar e imprimir para ajustar o relatório, ou Limpar para recomeçar.' }
+      txt:'Baixe o PDF, use Editar para ajustar o relatório, ou Limpar para recomeçar.' }
   ],
   a4:[
     { sel:'#relDoc .dica-ed', pos:'baixo', tit:'Tudo editável',
@@ -2656,6 +2704,90 @@ const zonaB=document.getElementById('zonaBase');
 zonaB.addEventListener('drop',e=>{ if(e.dataTransfer.files[0]) carregarBase(e.dataTransfer.files[0]); });
 
 
+function instalarFerramentas(doc, root, alvosZoom, telaVisivel){
+  var CORES=['#242424','#b91c1c','#c2410c','#b45309','#15803d','#0f6cbd','#1d4ed8','#7e22ce','#616161'];
+  var css=doc.createElement('style');
+  css.textContent=
+   '.fmtBar{position:fixed;z-index:9999;display:none;align-items:center;gap:4px;background:#fff;'+
+   'border:1px solid #d1d5e0;border-radius:10px;box-shadow:0 8px 24px rgba(16,24,64,.18);padding:5px 7px;font-family:Segoe UI,Arial,sans-serif}'+
+   '.fmtBar.on{display:flex}'+
+   '.fmtBar button{border:0;background:#f3f4f9;width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:14px;color:#242424}'+
+   '.fmtBar button:hover{background:#e2e8f2}.fmtBar button.on{background:#0f6cbd;color:#fff}'+
+   '.fmtBar .sep{width:1px;height:20px;background:#e1e4ec;margin:0 3px}'+
+   '.fmtBar .cor{width:20px;height:20px;border-radius:50%;padding:0;border:2px solid #fff;box-shadow:0 0 0 1px #d1d5e0}'+
+   '.zoomFlut{position:fixed;right:18px;bottom:18px;z-index:9998;display:none;align-items:center;gap:2px;background:#fff;'+
+   'border:1px solid #d1d5e0;border-radius:10px;box-shadow:0 6px 20px rgba(16,24,64,.16);padding:4px;font-family:Segoe UI,Arial,sans-serif}'+
+   '.zoomFlut.on{display:flex}'+
+   '.zoomFlut button{border:0;background:#f3f4f9;min-width:32px;height:30px;border-radius:7px;cursor:pointer;font-size:16px;font-weight:700;color:#242424}'+
+   '.zoomFlut button:hover{background:#e2e8f2}'+
+   '.zoomFlut .zv{min-width:56px;font-size:12.5px;background:transparent}'+
+   '@media print{.fmtBar,.zoomFlut{display:none !important}.zoomAlvo{zoom:1 !important}}';
+  doc.head.appendChild(css);
+  /* barra flutuante: aparece ao clicar em qualquer texto editavel */
+  var bar=doc.createElement('div'); bar.className='fmtBar';
+  var h='<button data-c="bold" title="Negrito (Ctrl+B)"><b>N</b></button>'+
+        '<button data-c="italic" title="Itálico (Ctrl+I)"><i>I</i></button>'+
+        '<button data-c="underline" title="Sublinhado (Ctrl+U)"><u>S</u></button><span class="sep"></span>';
+  CORES.forEach(function(c){ h+='<button class="cor" data-cor="'+c+'" title="Cor do texto" style="background:'+c+'"></button>'; });
+  h+='<span class="sep"></span><button data-c="removeFormat" title="Limpar formatação">⌫</button>';
+  bar.innerHTML=h; doc.body.appendChild(bar);
+  var atual=null;
+  function editavelDe(n){
+    while(n && n!==root){ if(n.nodeType===1 && n.getAttribute && n.getAttribute('contenteditable')==='true') return n; n=n.parentNode; }
+    return null;
+  }
+  function posicionar(){
+    if(!atual || !doc.contains(atual)){ esconder(); return; }
+    var r=atual.getBoundingClientRect();
+    var w=bar.offsetWidth, hh=bar.offsetHeight, vw=doc.documentElement.clientWidth;
+    var t=r.top-hh-6; if(t<60) t=r.bottom+6;
+    var l=Math.max(6,Math.min(r.left,vw-w-6));
+    bar.style.top=t+'px'; bar.style.left=l+'px';
+  }
+  function mostrar(el){ atual=el; bar.classList.add('on'); estado(); posicionar(); }
+  function esconder(){ atual=null; bar.classList.remove('on'); }
+  function estado(){
+    Array.prototype.forEach.call(bar.querySelectorAll('[data-c]'),function(b){
+      if(b.dataset.c==='removeFormat') return;
+      try{ b.classList.toggle('on', doc.queryCommandState(b.dataset.c)); }catch(x){}
+    });
+  }
+  root.addEventListener('focusin',function(e){ var el=editavelDe(e.target); if(el) mostrar(el); });
+  root.addEventListener('click',function(e){ var el=editavelDe(e.target); if(el) mostrar(el); });
+  root.addEventListener('focusout',function(){
+    setTimeout(function(){ var a=doc.activeElement; if(!a || !editavelDe(a)) esconder(); },150);
+  });
+  bar.addEventListener('mousedown',function(e){
+    e.preventDefault();
+    var b=e.target.closest('button'); if(!b) return;
+    try{ doc.execCommand('styleWithCSS',false,true); }catch(x){}
+    if(b.dataset.cor) doc.execCommand('foreColor',false,b.dataset.cor);
+    else doc.execCommand(b.dataset.c,false,null);
+    estado(); doc.dispatchEvent(new Event('input'));
+  });
+  doc.addEventListener('selectionchange',function(){ if(atual) estado(); });
+  doc.addEventListener('scroll',posicionar,true);
+  window.addEventListener('resize',posicionar);
+  /* zoom da pagina (so visualizacao) */
+  if(alvosZoom && alvosZoom.length){
+    alvosZoom.forEach(function(a){ a.classList.add('zoomAlvo'); });
+    var z=1, zf=doc.createElement('div'); zf.className='zoomFlut';
+    zf.innerHTML='<button data-z="-1" title="Diminuir zoom">−</button>'+
+      '<button class="zv" title="Voltar a 100%">100%</button><button data-z="1" title="Aumentar zoom">+</button>';
+    doc.body.appendChild(zf);
+    var zv=zf.querySelector('.zv');
+    function aplicar(){ alvosZoom.forEach(function(a){ a.style.zoom=z; }); zv.textContent=Math.round(z*100)+'%'; posicionar(); }
+    zf.addEventListener('mousedown',function(e){ e.preventDefault(); });
+    zf.addEventListener('click',function(e){
+      var b=e.target.closest('button'); if(!b) return;
+      if(b.dataset.z) z=Math.min(2,Math.max(0.5,Math.round((z+0.1*b.dataset.z)*10)/10)); else z=1;
+      aplicar();
+    });
+    function vis(){ zf.classList.toggle('on', !telaVisivel || telaVisivel()); }
+    vis(); setInterval(vis,400);
+  }
+}
+instalarFerramentas(document, document.getElementById('relDoc'), [document.querySelector('#a4 .relFolha')], function(){ return document.getElementById('a4').classList.contains('on'); });
 let BASE_OFICIAL_OK = false;
 document.body.classList.add('regrasFixa');
 restaurarDoArmazenamento();
