@@ -2060,9 +2060,9 @@ function corpoRelatorio(d){
         <td class="acao">${botaoStatus(r.ok)}<button class="bx" onclick="relApagarLinha(this)" title="Excluir esta linha">✕ Excluir</button></td></tr>`;
     }).join('');
     corpo+=`<div class="grupo${inv.length?'':' todosok'}">
-      <div class="gcab"><button class="bg" onclick="relApagarGrupo(this)" title="Excluir a pasta inteira do relatório">✕ Excluir pasta</button>${g.link?`<a href="${esc(g.link)}" target="_blank" rel="noopener">`:''}<span contenteditable="true">PASTA: ${esc(titulo)}</span>${g.link?'</a>':''}
+      <div class="gcab"><button class="bg" onclick="relApagarGrupo(this)" title="Excluir a pasta inteira do relatório">✕ Excluir pasta</button>${g.link?`<a href="${esc(g.link)}" target="_blank" rel="noopener">`:''}<span class="ptit">PASTA: ${esc(titulo)}</span>${g.link?'</a>':''}
         &nbsp;&nbsp;<span class="cnt">(${g.itens.length} arquivo(s) | ${v} válido(s) | ${inv.length} inválido(s))</span></div>
-      ${g.pasta?`<div class="gcam" contenteditable="true">${esc(g.pasta)}</div>`:''}
+      ${g.pasta?`<div class="gcam">${esc(g.pasta)}</div>`:''}
       <table><thead><tr><th class="exp"></th><th class="cn">Nome informado</th><th>Resultado / Erro e sugestão</th>
         <th class="acao">Ações</th></tr></thead><tbody>${linhas}</tbody></table>
       <div class="maisl"><button class="bl" onclick="relNovaLinha(this)">+ acrescentar linha</button></div>
@@ -2483,7 +2483,7 @@ function relDetalhe(b){
   var p=pai();
   if(!p){ selo('janela principal fechada — não dá para detalhar','#b91c1c'); return; }
   var c=tr.querySelector('.cn');
-  var d=document.createElement('tr'); d.className='det'+(tr.classList.contains('ok')?' dok':'');
+  var d=document.createElement('tr'); d.className='det';
   d.innerHTML='${S}td colspan="4">'+p.htmlDetalhe(c?c.textContent:'')+'${S}/td>';
   tr.parentNode.insertBefore(d,tr.nextSibling);
   b.textContent='−'; b.title='Fechar detalhe';
@@ -2535,7 +2535,7 @@ function salvarCopia(){
 }
 /* garante a edição mesmo que algum visualizador remova os atributos */
 (function garantirEdicao(){
-  var alvos='.cabr .t,.cabr .s,.gcab span,.gcam,td,.obs .ot,.obs .oc,.rodr span,.vazio';
+  var alvos='.cabr .t,.cabr .s,td,.obs .ot,.obs .oc,.rodr span,.vazio';
   Array.prototype.forEach.call(document.querySelectorAll('#relDoc '+alvos),function(el){
     if(el.classList.contains('acao')||el.classList.contains('exp')||el.closest('tr.det')) return;
     el.setAttribute('contenteditable','true');
@@ -2585,7 +2585,6 @@ function gerarRelatorio(){
   REL_ORIGINAL=doc.innerHTML;
   relAtualizarTotais();
   const bt=document.getElementById('btRelValidos'); if(bt) bt.textContent='Mostrar válidos';
-  document.getElementById('b4').classList.remove('oculto');
   document.getElementById('b4sub').textContent=`${d.invalidos} de ${d.total} com erro`;
 
   /* sem o terceiro argumento o navegador abre uma ABA, não uma janela */
