@@ -361,7 +361,9 @@
     body.imprimindoRel .relwrap .acao,
     body.imprimindoRel .relwrap .dica-ed,
     body.imprimindoRel .relwrap .maisl,
-    body.imprimindoRel .relwrap .bg{display:none !important}
+    body.imprimindoRel .relwrap .bg,
+    body.imprimindoRel .relwrap .exp,
+    body.imprimindoRel .relwrap tr.det{display:none !important}
     body.imprimindoRel .relwrap [contenteditable="true"]{border-bottom:0}
     body.imprimindoRel .relwrap tr.revalidado td{background:none;box-shadow:none}
     body.imprimindoRel .relwrap [contenteditable="true"]:hover,
@@ -672,6 +674,8 @@
       <button class="pri" onclick="relImprimir()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg> Imprimir / Salvar PDF</button>
       <button onclick="relRevalidarTudo()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> Revalidar tudo</button>
       <button id="btRelValidos" onclick="relAlternarValidos(this)">Mostrar válidos</button>
+      <button onclick="relExpandirTudo(true)">⊞ Expandir tudo</button>
+      <button onclick="relExpandirTudo(false)">⊟ Recolher tudo</button>
       <button onclick="relNovaObs()">+ Observação</button>
       <button onclick="relBaixarHTML()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M8 3v5h7V3M8 21v-7h8v7"/></svg> Salvar cópia</button>
       <button onclick="relRestaurar()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg> Desfazer tudo</button>
@@ -1975,17 +1979,17 @@ const CSS_REL = `
 .relwrap .cabr{border-radius:10px;overflow:hidden;margin-bottom:6mm;border:1px solid #eef1f6}
 .relwrap .cabr .t{background:#0f6cbd;color:#fff;padding:9px 14px;font-size:13pt;font-weight:700}
 .relwrap .cabr .s{padding:7px 14px;font-size:8.5pt;color:#7d8da5;font-style:italic;border-bottom:1px solid #eef1f6}
-.relwrap .cabr .tot{padding:9px 14px;font-size:10pt;font-weight:700;background:#f4f7fc}
+.relwrap .cabr .tot{padding:9px 14px;font-size:10pt;font-weight:700;background:#fff}
 .relwrap .cabr .tot span{margin-right:18px}
 .relwrap .vd{color:#15803d} .relwrap .iv{color:#b91c1c}
 .relwrap .grupo{margin-bottom:5mm}
-.relwrap .gcab{background:#e8f2fe;border-left:4px solid #3b82f6;padding:7px 11px;font-weight:700;
-      font-size:9.5pt;color:#1d4ed8;border-radius:0 7px 7px 0}
-.relwrap .gcab a{color:#1d4ed8;text-decoration:none}
+.relwrap .gcab{background:#f5f6f8;border-left:3px solid #9aa3b2;padding:7px 11px;font-weight:700;
+      font-size:9.5pt;color:#2b3445;border-radius:0 7px 7px 0}
+.relwrap .gcab a{color:#2b3445;text-decoration:none}
 .relwrap .gcam{padding:4px 11px 6px;font-size:7.5pt;color:#7d8da5;word-break:break-all}
 .relwrap table{width:100%;border-collapse:collapse;font-size:8pt;background:#fff}
 .relwrap thead{display:table-header-group} .relwrap tr{break-inside:avoid}
-.relwrap th{background:#f4f7fc;color:#7d8da5;text-align:left;padding:6px 9px;font-size:7.5pt;
+.relwrap th{background:#fff;border-bottom:1px solid #e5e7eb;color:#7d8da5;text-align:left;padding:6px 9px;font-size:7.5pt;
       text-transform:uppercase;position:static}
 .relwrap td{padding:6px 9px;border-bottom:1px solid #eef1f6;vertical-align:top;line-height:1.45}
 .relwrap .cn{width:44%;font-family:Consolas,monospace;font-size:7.5pt;word-break:break-all}
@@ -1993,23 +1997,23 @@ const CSS_REL = `
 .relwrap tr.ok td{color:#15803d}
 .relwrap .vazio{padding:14px;background:#e8f8ee;border-radius:8px;color:#15803d;font-weight:600}
 .relwrap .obs{margin-top:6mm;border:1px solid #eef1f6;border-radius:8px;overflow:hidden}
-.relwrap .obs .ot{background:#f4f7fc;padding:6px 11px;font-size:7.5pt;text-transform:uppercase;
+.relwrap .obs .ot{background:#f7f7f8;padding:6px 11px;font-size:7.5pt;text-transform:uppercase;
       letter-spacing:.5px;color:#7d8da5;font-weight:700}
 .relwrap .obs .oc{padding:10px 12px;font-size:8.5pt;min-height:52px;line-height:1.6}
 .relwrap .rodr{margin-top:8mm;padding-top:5px;border-top:1px solid #eef1f6;font-size:7.5pt;
       color:#7d8da5;display:flex;justify-content:space-between}
 .relwrap [contenteditable="true"]{border-bottom:1px dotted #cfd8e6;cursor:text}
-.relwrap [contenteditable="true"]:hover{background:#f5f9fe;border-bottom-color:#0f6cbd}
+.relwrap [contenteditable="true"]:hover{background:#f7f7f8;border-bottom-color:#0f6cbd}
 .relwrap [contenteditable="true"]:focus{background:#eef5fd;outline:2px solid #0f6cbd;border-bottom-color:transparent}
-.relwrap tbody tr:hover td{background:#f8fafd}
+.relwrap tbody tr:hover td{background:#fafafa}
 .relwrap .dica-ed{display:flex;gap:8px;align-items:center;background:#fef7e4;color:#b45309;
       border-radius:8px;padding:8px 12px;font-size:8.5pt;margin-bottom:4mm;line-height:1.5}
 .relwrap .bx{border:0;background:#fdeded;color:#b91c1c;padding:4px 10px;border-radius:6px;
       cursor:pointer;font:inherit;font-size:7.5pt;font-weight:700;white-space:nowrap}
 .relwrap .bx:hover{background:#f5b5b5}
-.relwrap .bl{border:0;background:#e8f2fe;color:#1d4ed8;padding:5px 12px;border-radius:6px;
+.relwrap .bl{border:1px solid #e5e7eb;background:#fff;color:#4b5563;padding:5px 12px;border-radius:6px;
       cursor:pointer;font:inherit;font-size:7.5pt;font-weight:700}
-.relwrap .bl:hover{background:#d3e5fd}
+.relwrap .bl:hover{background:#f3f4f6}
 .relwrap .bg{border:0;background:rgba(255,255,255,.75);color:#b91c1c;padding:3px 9px;border-radius:6px;
       cursor:pointer;font:inherit;font-size:7pt;font-weight:700;float:right}
 .relwrap .bg:hover{background:#fdeded}
@@ -2019,6 +2023,22 @@ const CSS_REL = `
       font-weight:700;white-space:nowrap;margin-right:4px}
 .relwrap .bs.val{background:#e8f8ee;color:#15803d} .relwrap .bs.val:hover{background:#c6efd4}
 .relwrap .bs.inv{background:#fef7e4;color:#b45309} .relwrap .bs.inv:hover{background:#fde7b0}
+.relwrap th.exp,.relwrap td.exp{width:34px;padding:5px 4px;text-align:center;vertical-align:middle}
+.relwrap .bmais{border:1px solid #e5e7eb;background:#fff;color:#4b5563;width:22px;height:22px;border-radius:6px;
+      cursor:pointer;font:inherit;font-size:12pt;font-weight:700;line-height:1;padding:0;
+      display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}
+.relwrap .bmais:hover{background:#f3f4f6}
+.relwrap tr.det td{background:#fafafa;padding:6px 8px 8px 38px;color:#2b3445}
+.relwrap .dtg{display:grid;gap:4px}
+.relwrap .dtf{border-radius:6px;overflow:hidden;font-size:6.6pt;min-width:0}
+.relwrap .dtf .h{color:#fff;font-weight:700;text-transform:uppercase;padding:0 5px;font-size:5.8pt;
+      letter-spacing:.2px;height:22px;line-height:1.15;display:flex;align-items:center;overflow:hidden}
+.relwrap .dtf .v{font-family:Consolas,monospace;font-weight:700;padding:4px 5px 1px;word-break:break-all;font-size:6.6pt}
+.relwrap .dtf .d{padding:0 5px 5px;color:#5a6577;line-height:1.3}
+.relwrap .dtf.x{box-shadow:inset 0 0 0 1.5px #b91c1c}
+.relwrap .dtf.x .d{color:#b91c1c;font-weight:600}
+.relwrap .dtx{margin-top:4px;font-size:6.6pt;color:#7d8da5}
+.relwrap.soInvalidos tr.ok + tr.det{display:none}
 .relwrap.soInvalidos tr.ok{display:none}
 .relwrap.soInvalidos .grupo.todosok{display:none}
 `;
@@ -2034,15 +2054,16 @@ function corpoRelatorio(d){
       const txt = r.ok ? 'Nomenclatura conforme o padrão.'
                        : '<b>ERRO</b> '+r.erros.map(e=>'- '+esc(e)).join(' ');
       return `<tr class="${r.ok?'ok':'er'}">
+        <td class="exp"><button class="bmais" onclick="relDetalhe(this)" title="Ver o significado de cada campo">+</button></td>
         <td class="cn" contenteditable="true">${esc(r.bruto)}</td>
-        <td contenteditable="true">${txt}</td>
+        <td class="res" contenteditable="true">${txt}</td>
         <td class="acao">${botaoStatus(r.ok)}<button class="bx" onclick="relApagarLinha(this)" title="Excluir esta linha">✕ Excluir</button></td></tr>`;
     }).join('');
     corpo+=`<div class="grupo${inv.length?'':' todosok'}">
       <div class="gcab"><button class="bg" onclick="relApagarGrupo(this)" title="Excluir a pasta inteira do relatório">✕ Excluir pasta</button>${g.link?`<a href="${esc(g.link)}" target="_blank" rel="noopener">`:''}<span contenteditable="true">PASTA: ${esc(titulo)}</span>${g.link?'</a>':''}
         &nbsp;&nbsp;<span class="cnt">(${g.itens.length} arquivo(s) | ${v} válido(s) | ${inv.length} inválido(s))</span></div>
       ${g.pasta?`<div class="gcam" contenteditable="true">${esc(g.pasta)}</div>`:''}
-      <table><thead><tr><th class="cn">Nome informado</th><th>Resultado / Erro e sugestão</th>
+      <table><thead><tr><th class="exp"></th><th class="cn">Nome informado</th><th>Resultado / Erro e sugestão</th>
         <th class="acao">Ações</th></tr></thead><tbody>${linhas}</tbody></table>
       <div class="maisl"><button class="bl" onclick="relNovaLinha(this)">+ acrescentar linha</button></div>
     </div>`;
@@ -2051,7 +2072,7 @@ function corpoRelatorio(d){
 
   return `<div class="dica-ed">✏️ <span>Todo texto sublinhado é editável — clique e digite.
     Ao corrigir um nome e sair do campo, a verificação refaz sozinha.
-    Ao clicar num texto, aparece a barra de cor, negrito, itálico e sublinhado. Use <b>✕ Excluir</b> para tirar uma linha e <b>✕ Excluir pasta</b> para tirar o bloco inteiro.
+    Ao clicar num texto, aparece a barra de cor, negrito, itálico e sublinhado. Use <b>+</b> para ver o que significa cada código do nome. Use <b>✕ Excluir</b> para tirar uma linha e <b>✕ Excluir pasta</b> para tirar o bloco inteiro.
     Nada disso aparece na impressão.</span></div>
 <div class="cabr">
   <div class="t" contenteditable="true">RELATÓRIO DE VERIFICAÇÃO DE NOMENCLATURA</div>
@@ -2063,6 +2084,68 @@ ${corpo}
 <div class="rodr"><span contenteditable="true">SOP · Estrutura e Nomenclatura</span><span contenteditable="true">Gerado em ${carimbo}</span></div>`;
 }
 
+/* ══════════ DETALHE DOS CAMPOS (só visualização) ══════════ */
+const COR_HEX={fa:['#3b82f6','#e8f2fe','#1d4ed8'],fl:['#f97316','#fff1e3','#c2410c'],
+  fr:['#a855f7','#f5edfe','#7e22ce'],fm:['#f5b014','#fef7e4','#b45309'],fv:['#22c55e','#e8f8ee','#15803d']};
+function htmlDetalhe(nomeBruto){
+  const nome=(nomeBruto||'').replace(/\s+/g,' ').trim();
+  if(!nome) return '<div class="dtx">Nome vazio.</div>';
+  const r=validar(nome), c=r.campos||{};
+  const cel=(rot,v,desc,ok)=>({rot,v:v||'—',desc:v?desc:'campo ausente',ok:!!v&&ok});
+  const conteudo=co=>{ const cc=conferirConteudo(co||''); if(cc.erro) return ['não reconhecido',false];
+    const n=nomeDe(D.conteudos,cc.base)||cc.base; return [cc.numero?n+' nº '+cc.numero:n,true]; };
+  const rev=re=>/^R\d{2}$/.test(re||'')?['Revisão '+re.slice(1),true]:['fora do padrão (R00 a R99)',false];
+  const lista=SET_=>(v,l)=>SET_.has(v)?[nomeDe(l,v)||v,true]:['não reconhecido',false];
+  let cs;
+  if(r.modulo){
+    const [ca,cb]=lista(SET_ATIV)(c.at,D.atividades), [ea,eb]=lista(SET_ETA)(c.et,D.etapas),
+          [da,db]=lista(SET_DIS)(c.di,D.disciplinas), [ka,kb]=conteudo(c.co), [ra,rb]=rev(c.re);
+    cs=[cel('Ativ. demandante',c.at,ca,cb), cel('Código',c.cod,'código do módulo',true),
+        cel('Nome do módulo',c.mod,'nome do módulo',true), cel('Etapa',c.et,ea,eb),
+        cel('Disciplina',c.di,da,db), cel('Conteúdo',c.co,ka,kb), cel('Revisão',c.re,ra,rb)];
+  } else {
+    const [ca,cb]=lista(SET_ATIV)(c.at,D.atividades);
+    const mOk=SET_MUN.has(c.mu);
+    let ed=['edificação (campo livre)',true];
+    if(c.at==='OP-EDU'){ const e=D.escolas.find(x=>x.k===chaveEsc(c.mu,c.ed));
+      ed=e?[e.e,true]:['escola não localizada no município',false]; }
+    const sg=/^X{9}$/.test(c.sg||'')?['sem nº SGO atribuído',true]:/^\d+$/.test(c.sg||'')?['nº SGO / demanda',true]:['fora do padrão',false];
+    const [ea,eb]=lista(SET_ETA)(c.et,D.etapas), [da,db]=lista(SET_DIS)(c.di,D.disciplinas);
+    const st=D.setorizacao.find(x=>x.cod.toUpperCase()===(c.se||''));
+    const [ka,kb]=conteudo(c.co), [ra,rb]=rev(c.re);
+    cs=[cel('Ativ. demandante',c.at,ca,cb), cel('Município',c.mu,mOk?MAPA_MUN[c.mu]:'não reconhecido',mOk),
+        cel('Edificação',c.ed,ed[0],ed[1]), cel('Nº SGO / demanda',c.sg,sg[0],sg[1]),
+        cel('Etapa',c.et,ea,eb), cel('Disciplina',c.di,da,db),
+        cel('Setorização',c.se,st?st.setor+' · '+st.var:'não reconhecido',!!st),
+        cel('Conteúdo',c.co,ka,kb), cel('Revisão',c.re,ra,rb)];
+  }
+  const g=cs.map((x,i)=>{ const k=COR_HEX[CORES[i%9]];
+    return `<div class="dtf${x.ok?'':' x'}" style="background:${k[1]}"><div class="h" style="background:${k[0]}">${i+1} · ${esc(x.rot)}</div>`+
+      `<div class="v" style="color:${k[2]}">${esc(x.v)}</div><div class="d">${esc(x.desc)}</div></div>`; }).join('');
+  const extra=[r.modulo?'Estrutura de Módulo Padrão (7 campos)':'Estrutura comum ('+r.n+' campo'+(r.n===1?'':'s')+')',
+               r.ext?'extensão .'+r.ext.toLowerCase():''].filter(Boolean).join(' · ');
+  return `<div class="dtg" style="grid-template-columns:repeat(${cs.length},minmax(0,1fr))">${g}</div><div class="dtx">${esc(extra)}</div>`;
+}
+function relAtualizarDetalhe(tr){
+  const nx=tr.nextElementSibling;
+  if(nx&&nx.classList.contains('det')){ const c=tr.querySelector('.cn');
+    nx.firstElementChild.innerHTML=htmlDetalhe(c?c.textContent:''); }
+}
+function relExpandirTudo(abrir){
+  document.querySelectorAll('#relDoc tbody tr:not(.det) .bmais').forEach(b=>{
+    const nx=b.closest('tr').nextElementSibling, aberto=!!(nx&&nx.classList.contains('det'));
+    if(aberto!==abrir) relDetalhe(b);
+  });
+}
+function relDetalhe(b){
+  const tr=b.closest('tr'), nx=tr.nextElementSibling;
+  if(nx&&nx.classList.contains('det')){ nx.remove(); b.textContent='+'; b.title='Ver o significado de cada campo'; return; }
+  const c=tr.querySelector('.cn');
+  const d=document.createElement('tr'); d.className='det';
+  d.innerHTML='<td colspan="4">'+htmlDetalhe(c?c.textContent:'')+'</td>';
+  tr.parentNode.insertBefore(d,tr.nextSibling);
+  b.textContent='−'; b.title='Fechar detalhe';
+}
 /* ══════════ VALIDAR / INVALIDAR MANUALMENTE ══════════ */
 function botaoStatus(ok){
   return ok
@@ -2081,7 +2164,7 @@ function relAlternarStatus(b){
   const ficaOk=!tr.classList.contains('ok');
   tr.dataset.manual = ficaOk?'ok':'er';
   tr.classList.toggle('ok',ficaOk); tr.classList.toggle('er',!ficaOk);
-  const res=tr.children[1];
+  const res=tr.querySelector('td.res');
   if(res) res.innerHTML = ficaOk ? 'Validado manualmente.' : '<b>INVALIDADO</b> manualmente.';
   relAjustarBotao(tr);
   relAtualizarTotais();
@@ -2089,10 +2172,11 @@ function relAlternarStatus(b){
 
 /* ══════════ REVALIDAÇÃO AO EDITAR ══════════ */
 function relPintarLinha(tr, r){
+  relAtualizarDetalhe(tr);
   if(tr.dataset.manual) return;   /* decisão manual prevalece */
   tr.classList.toggle('ok', r.ok);
   tr.classList.toggle('er', !r.ok);
-  const res = tr.children[1];
+  const res = tr.querySelector('td.res');
   if(res) res.innerHTML = r.ok
     ? 'Nomenclatura conforme o padrão.'
     : '<b>ERRO</b> '+r.erros.map(e=>'- '+esc(e)).join(' ');
@@ -2101,7 +2185,7 @@ function relPintarLinha(tr, r){
 
 /* revalida todas as linhas de uma pasta em conjunto (regra do número em PRA/CAD/IMG/VIN) */
 function relRevalidarGrupo(g){
-  const trs=[...g.querySelectorAll('tbody tr')].filter(tr=>tr.querySelector('.cn'));
+  const trs=[...g.querySelectorAll('tbody tr:not(.det)')].filter(tr=>tr.querySelector('.cn'));
   const vivos=[], nomes=[];
   trs.forEach(tr=>{
     const td=tr.querySelector('.cn');
@@ -2143,7 +2227,7 @@ function relAtualizarTotais(){
   const doc=document.getElementById('relDoc'); if(!doc) return;
   let tot=0, ok=0;
   doc.querySelectorAll('.grupo').forEach(g=>{
-    const linhas=g.querySelectorAll('tbody tr');
+    const linhas=g.querySelectorAll('tbody tr:not(.det)');
     const v=[...linhas].filter(t=>t.classList.contains('ok')).length;
     tot+=linhas.length; ok+=v;
     const c=g.querySelector('.cnt');
@@ -2156,11 +2240,13 @@ function relAtualizarTotais(){
 
 /* ── ações de edição ── */
 function relApagarLinha(b){
-  const tr=b.closest('tr'); if(tr) tr.remove(); relAtualizarTotais();
+  const tr=b.closest('tr');
+  if(tr){ const nx=tr.nextElementSibling; if(nx&&nx.classList.contains('det')) nx.remove(); tr.remove(); }
+  relAtualizarTotais();
 }
 function relApagarGrupo(b){
   const g=b.closest('.grupo'); if(!g) return;
-  const n=g.querySelectorAll('tbody tr').length;
+  const n=g.querySelectorAll('tbody tr:not(.det)').length;
   if(!confirm(`Excluir esta pasta e as ${n} linha(s) dela?`)) return;
   g.remove(); relAtualizarTotais();
 }
@@ -2168,12 +2254,12 @@ function relNovaLinha(b){
   const tb=b.closest('.grupo').querySelector('tbody');
   const tr=document.createElement('tr');
   tr.className='er';
-  tr.innerHTML='<td class="cn" contenteditable="true">novo-arquivo</td>'+
-    '<td contenteditable="true">descreva aqui</td>'+
+  tr.innerHTML='<td class="exp"><button class="bmais" onclick="relDetalhe(this)" title="Ver o significado de cada campo">+</button></td><td class="cn" contenteditable="true">novo-arquivo</td>'+
+    '<td class="res" contenteditable="true">descreva aqui</td>'+
     '<td class="acao">'+botaoStatus(false)+'<button class="bx" onclick="relApagarLinha(this)" title="Excluir esta linha">\u2715 Excluir</button></td>';
   tb.appendChild(tr);
   relAtualizarTotais();
-  const c=tr.querySelector('td'); c.focus();
+  const c=tr.querySelector('td.cn'); c.focus();
   const sel=document.getSelection(); if(sel) sel.selectAllChildren(c);
 }
 
@@ -2182,7 +2268,7 @@ function relRevalidarTudo(){
   const doc=document.getElementById('relDoc'); if(!doc) return;
   let n=0, viraram=0;
   const antes=new Map();
-  doc.querySelectorAll('tbody tr').forEach(tr=>antes.set(tr,tr.classList.contains('ok')));
+  doc.querySelectorAll('tbody tr:not(.det)').forEach(tr=>antes.set(tr,tr.classList.contains('ok')));
   doc.querySelectorAll('.grupo').forEach(g=>{
     relRevalidarGrupo(g).forEach((r,tr)=>{
       n++; if(r.ok!==antes.get(tr)){ viraram++; tr.classList.add('revalidado'); }
@@ -2239,7 +2325,7 @@ function paginaRelatorio(d, conteudo){
 ${S}style>
 @page{size:A4;margin:14mm 12mm 16mm}
 *{box-sizing:border-box}
-body{margin:0;background:#e9edf4;font-family:'Segoe UI',Arial,sans-serif;padding:0 0 40px}
+body{margin:0;background:#f3f4f6;font-family:'Segoe UI',Arial,sans-serif;padding:0 0 40px}
 .barra{position:sticky;top:0;background:#2b3445;color:#fff;padding:9px 16px;font-size:12.5px;
   display:flex;gap:8px;align-items:center;flex-wrap:wrap;z-index:5}
 .barra .tit{font-weight:700;margin-right:4px}
@@ -2253,7 +2339,7 @@ body{margin:0;background:#e9edf4;font-family:'Segoe UI',Arial,sans-serif;padding
 .folha{max-width:840px;margin:22px auto;background:#fff;border-radius:12px;
   box-shadow:0 6px 24px rgba(43,52,69,.13);padding:34px 38px}
 ${CSS_REL}
-.relwrap [contenteditable="true"]:hover{background:#f5f9fe;outline:1px dashed #b4d6fa}
+.relwrap [contenteditable="true"]:hover{background:#f7f7f8;outline:1px dashed #d1d5db}
 .relwrap [contenteditable="true"]:focus{background:#eef5fd;outline:2px solid #0f6cbd}
 .relwrap tr.revalidado td{background:#fffbeb}
 .relwrap tr.revalidado td:first-child{box-shadow:inset 3px 0 0 #0f6cbd}
@@ -2261,7 +2347,7 @@ ${CSS_REL}
   .barra{display:none !important}
   body{background:#fff;padding:0}
   .folha{max-width:none;margin:0;padding:0;box-shadow:none;border-radius:0}
-  .relwrap .acao,.relwrap .dica-ed,.relwrap .maisl,.relwrap .bg{display:none !important}
+  .relwrap .acao,.relwrap .dica-ed,.relwrap .maisl,.relwrap .bg,.relwrap .exp,.relwrap tr.det{display:none !important}
   .relwrap [contenteditable="true"]{border-bottom:0}
   .relwrap tr.revalidado td{background:none;box-shadow:none}
   .relwrap [contenteditable="true"]:hover,.relwrap [contenteditable="true"]:focus{background:none;outline:none}
@@ -2273,6 +2359,8 @@ ${S}/style></head><body>
   <button class="pri" onclick="window.print()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg> Imprimir / Salvar PDF</button>
   <button onclick="revalidarTudo()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> Revalidar tudo</button>
   <button id="btv" onclick="alternarValidos(this)">Mostrar válidos</button>
+  <button onclick="expandirTudo(true)">⊞ Expandir tudo</button>
+  <button onclick="expandirTudo(false)">⊟ Recolher tudo</button>
   <button onclick="novaObs()">+ Observação</button>
   <button onclick="salvarCopia()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M8 3v5h7V3M8 21v-7h8v7"/></svg> Salvar cópia</button>
   <button onclick="restaurar()"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg> Desfazer tudo</button>
@@ -2300,9 +2388,12 @@ function ajustarBotao(tr){
   b.title= ok?'Marcar como inválido':'Marcar como válido';
 }
 function pintar(tr,r){
+  var nx=tr.nextElementSibling, p=pai();
+  if(nx&&nx.classList.contains('det')&&p){ var c=tr.querySelector('.cn');
+    nx.firstElementChild.innerHTML=p.htmlDetalhe(c?c.textContent:''); }
   if(tr.dataset.manual) return;
   tr.classList.toggle('ok',r.ok); tr.classList.toggle('er',!r.ok);
-  var td=tr.children[1];
+  var td=tr.querySelector('td.res');
   if(td) td.innerHTML = r.ok ? 'Nomenclatura conforme o padrão.'
     : '${S}b>ERRO${S}/b> ' + r.erros.map(function(e){ return '- '+esc(e); }).join(' ');
   ajustarBotao(tr);
@@ -2312,13 +2403,13 @@ function alternarStatus(b){
   var ficaOk=!tr.classList.contains('ok');
   tr.dataset.manual = ficaOk?'ok':'er';
   tr.classList.toggle('ok',ficaOk); tr.classList.toggle('er',!ficaOk);
-  var td=tr.children[1];
+  var td=tr.querySelector('td.res');
   if(td) td.innerHTML = ficaOk ? 'Validado manualmente.' : '${S}b>INVALIDADO${S}/b> manualmente.';
   ajustarBotao(tr); totais(); editado=true;
 }
 function revalGrupo(p,g){
   var vivos=[], nomes=[];
-  Array.prototype.forEach.call(g.querySelectorAll('tbody tr'),function(tr){
+  Array.prototype.forEach.call(g.querySelectorAll('tbody tr:not(.det)'),function(tr){
     var td=tr.querySelector('.cn'); if(!td) return;
     var nome=(td.textContent||'').replace(/\\s+/g,' ').trim();
     if(td.textContent!==nome) td.textContent=nome;
@@ -2349,7 +2440,7 @@ function revalidarTudo(){
   var n=0,mudou=0;
   Array.prototype.forEach.call(document.querySelectorAll('#relDoc .grupo'),function(g){
     var antes=[];
-    Array.prototype.forEach.call(g.querySelectorAll('tbody tr'),function(tr){ antes.push([tr,tr.classList.contains('ok')]); });
+    Array.prototype.forEach.call(g.querySelectorAll('tbody tr:not(.det)'),function(tr){ antes.push([tr,tr.classList.contains('ok')]); });
     revalGrupo(p,g).forEach(function(x){
       n++;
       antes.forEach(function(a){ if(a[0]===x[0] && a[1]!==x[1].ok){ mudou++; x[0].classList.add('revalidado'); } });
@@ -2361,7 +2452,7 @@ function revalidarTudo(){
 function totais(){
   var doc=document.getElementById('relDoc'), tot=0, ok=0;
   Array.prototype.forEach.call(doc.querySelectorAll('.grupo'),function(g){
-    var ls=g.querySelectorAll('tbody tr');
+    var ls=g.querySelectorAll('tbody tr:not(.det)');
     var v=Array.prototype.filter.call(ls,function(t){return t.classList.contains('ok')}).length;
     tot+=ls.length; ok+=v;
     var c=g.querySelector('.cnt');
@@ -2371,23 +2462,42 @@ function totais(){
   var p=function(cl,v){ var el=doc.querySelector(cl); if(el) el.textContent=v; };
   p('.n-tot',tot); p('.n-ok',ok); p('.n-er',tot-ok);
 }
-function apagarLinha(b){ var tr=b.parentNode.parentNode; if(tr) tr.remove(); totais(); editado=true; }
+function apagarLinha(b){ var tr=b.parentNode.parentNode;
+  if(tr){ var nx=tr.nextElementSibling; if(nx&&nx.classList.contains('det')) nx.remove(); tr.remove(); }
+  totais(); editado=true; }
 function apagarGrupo(b){
   var g=b.parentNode.parentNode;
-  var n=g.querySelectorAll('tbody tr').length;
+  var n=g.querySelectorAll('tbody tr:not(.det)').length;
   if(!confirm('Excluir esta pasta e as '+n+' linha(s) dela?')) return;
   g.remove(); totais(); editado=true;
+}
+function expandirTudo(abrir){
+  Array.prototype.forEach.call(document.querySelectorAll('#relDoc tbody tr:not(.det) .bmais'),function(b){
+    var nx=b.closest('tr').nextElementSibling, aberto=!!(nx&&nx.classList.contains('det'));
+    if(aberto!==abrir) relDetalhe(b);
+  });
+}
+function relDetalhe(b){
+  var tr=b.closest('tr'), nx=tr.nextElementSibling;
+  if(nx&&nx.classList.contains('det')){ nx.remove(); b.textContent='+'; b.title='Ver o significado de cada campo'; return; }
+  var p=pai();
+  if(!p){ selo('janela principal fechada — não dá para detalhar','#b91c1c'); return; }
+  var c=tr.querySelector('.cn');
+  var d=document.createElement('tr'); d.className='det'+(tr.classList.contains('ok')?' dok':'');
+  d.innerHTML='${S}td colspan="4">'+p.htmlDetalhe(c?c.textContent:'')+'${S}/td>';
+  tr.parentNode.insertBefore(d,tr.nextSibling);
+  b.textContent='−'; b.title='Fechar detalhe';
 }
 /* o HTML do relatório usa os nomes rel* — apontam para as mesmas ações */
 var relApagarLinha=apagarLinha, relApagarGrupo=apagarGrupo, relNovaLinha=novaLinha, relAlternarStatus=function(b){ alternarStatus(b); };
 function novaLinha(b){
   var tb=b.parentNode.parentNode.querySelector('tbody');
   var tr=document.createElement('tr'); tr.className='er';
-  tr.innerHTML='${S}td class="cn" contenteditable="true">novo-arquivo${S}/td>'+
-    '${S}td contenteditable="true">descreva aqui${S}/td>'+
+  tr.innerHTML='${S}td class="exp">${S}button class="bmais" onclick="relDetalhe(this)" title="Ver o significado de cada campo">+${S}/button>${S}/td>${S}td class="cn" contenteditable="true">novo-arquivo${S}/td>'+
+    '${S}td class="res" contenteditable="true">descreva aqui${S}/td>'+
     '${S}td class="acao">${S}button class="bs val" onclick="alternarStatus(this)" title="Marcar como válido">✓ Validar${S}/button>${S}button class="bx" onclick="apagarLinha(this)" title="Excluir esta linha">✕ Excluir${S}/button>${S}/td>';
   tb.appendChild(tr); totais(); editado=true;
-  var c=tr.querySelector('td'); c.focus();
+  var c=tr.querySelector('td.cn'); c.focus();
   var sel=document.getSelection(); if(sel) sel.selectAllChildren(c);
 }
 function alternarValidos(b){
@@ -2414,7 +2524,7 @@ function salvarCopia(){
   var doc=document.documentElement.cloneNode(true);
   var b=doc.querySelector('.barra'); if(b) b.remove();
   var sc=doc.querySelector('script'); if(sc) sc.remove();
-  Array.prototype.forEach.call(doc.querySelectorAll('.acao,.dica-ed,.maisl,.bg'),function(e){ e.remove(); });
+  Array.prototype.forEach.call(doc.querySelectorAll('.acao,.dica-ed,.maisl,.bg,.exp,tr.det'),function(e){ e.remove(); });
   var blob=new Blob(['\ufeff${S}!DOCTYPE html>'+doc.outerHTML],{type:'text/html;charset=utf-8'});
   var url=URL.createObjectURL(blob);
   var a=document.createElement('a');
@@ -2427,7 +2537,7 @@ function salvarCopia(){
 (function garantirEdicao(){
   var alvos='.cabr .t,.cabr .s,.gcab span,.gcam,td,.obs .ot,.obs .oc,.rodr span,.vazio';
   Array.prototype.forEach.call(document.querySelectorAll('#relDoc '+alvos),function(el){
-    if(el.classList.contains('acao')) return;
+    if(el.classList.contains('acao')||el.classList.contains('exp')||el.closest('tr.det')) return;
     el.setAttribute('contenteditable','true');
     el.setAttribute('spellcheck','false');
   });
@@ -2517,7 +2627,7 @@ function relBaixarHTML(){
 @page{size:A4;margin:14mm 12mm 16mm}
 body{margin:0;padding:10mm;background:#fff}
 ${CSS_REL}
-.relwrap .acao,.relwrap .dica-ed,.relwrap .maisl,.relwrap .bg{display:none}
+.relwrap .acao,.relwrap .dica-ed,.relwrap .maisl,.relwrap .bg,.relwrap .exp,.relwrap tr.det{display:none}
 .relwrap [contenteditable="true"]{border-bottom:0}
 </style></head><body><div class="relwrap soInvalidos" id="relDoc">${conteudo}</div></body></html>`;
   try{
