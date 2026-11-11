@@ -892,7 +892,7 @@ function validarMP(bruto, nome, partes, ext, caixaErrada){
 }
 
 /* ───── validação · estrutura comum (9 campos) ───── */
-function validar(bruto){
+function validar(bruto, opts){
   const original = tiraExtensao(bruto);
   const nome = original.toUpperCase(), erros = [];
   const caixaErrada = original!==nome;
@@ -916,6 +916,11 @@ function validar(bruto){
   if(!ed){erros.push('Falta campo Edificação.'); sug.ed='[EDIFICACAO?]';}
   else if(at==='OP-EDU'){
     if(CHAVE_ESC.has(chaveEsc(mu,ed))) sug.ed=ed;
+    else if(opts && opts.edLivre){
+      /* montador: edificação digitada é aceita mesmo sem cadastro na base */
+      if(/^[A-Z0-9-]+$/.test(ed)) sug.ed=ed;
+      else {erros.push(`Edificação digitada inválida: ${ed}. Use apenas letras, números e traço (-).`); sug.ed='[EDIFICACAO?]';}
+    }
     else {erros.push(`Edificação inválida ou não localizada para o município informado: ${ed}`); sug.ed='[EDIFICACAO?]';}
   } else sug.ed=ed;
   const sgoOk = s => !!s && (/^\d+$/.test(s)||/^X{9}$/.test(s));
@@ -1166,11 +1171,11 @@ function renderTab(){
 
 /* ══════════ COMBO COM BUSCA ══════════ */
 const COMBOS={};
-function combo(id, rotulo, obterLista, aoMudar, livre, valorInicial){
+function combo(id, rotulo, obterLista, aoMudar, livre, valorInicial, ph){
   COMBOS[id]={lista:obterLista, aoMudar, livre:!!livre, valor:valorInicial||''};
   return `<div class="mc"><label>${rotulo}</label>
     <div class="combo" id="cb_${id}">
-      <input id="${id}" autocomplete="off" placeholder="—"
+      <input id="${id}" autocomplete="off" placeholder="${esc(ph||'—')}"
         value="${esc(valorInicial||'')}"
         oninput="cbInput('${id}')" onfocus="cbAbrir('${id}')" onclick="cbAbrir('${id}')" onkeydown="cbTecla(event,'${id}')">
       <button type="button" class="limpa" title="Limpar" onmousedown="event.preventDefault()" onclick="cbLimpar('${id}')">×</button><span class="seta" onmousedown="event.preventDefault()" onclick="cbSeta(this)">▼</span><div class="lista" id="lst_${id}"></div>
@@ -1212,7 +1217,7 @@ function cbPintar(id, filtro){
   const el=document.getElementById('lst_'+id);
   el.innerHTML = l.length
     ? l.map(x=>`<div onmousedown="cbEscolher('${id}','${esc(x.cod)}')"><b>${esc(x.cod)}</b>${esc(x.nome||'')}</div>`).join('')
-    : `<div class="vazioMsg">${COMBOS[id].livre?'Nenhum código na lista — o valor digitado será usado.':'Nenhum resultado.'}</div>`;
+    : `<div class="vazioMsg">${COMBOS[id].livre?'Nenhuma edificação na lista. Digite o nome, com traço entre as palavras (formato XXXXX-XXXXX).':'Nenhum resultado.'}</div>`;
 }
 function cbInput(id){
   const box=document.getElementById('cb_'+id);
@@ -1231,7 +1236,7 @@ function cbTecla(e,id){
   if(e.key==='Escape'){ document.getElementById('cb_'+id).classList.remove('aberto'); }
   if(e.key==='Enter'){
     const l=cbItens(id, document.getElementById(id).value);
-    if(l.length===1) cbEscolher(id, l[0].cod);
+    if(l.length===1 && !COMBOS[id].livre) cbEscolher(id, l[0].cod);
     else document.getElementById('cb_'+id).classList.remove('aberto');
     e.preventDefault();
   }
@@ -1265,7 +1270,7 @@ function montarForm9(){
   const h=[
     combo('f1','1 · Ativ. demandante',()=>D.atividades,()=>{cbSet('f3','');montar9();}),
     combo('f2','2 · Município',()=>D.municipios,()=>{cbSet('f3','');montar9();}),
-    combo('f3','3 · Edificação',escolasDoMunicipio,montar9,true),
+    combo('f3','3 · Edificação',escolasDoMunicipio,montar9,true,'','Selecione/digite…'),
     `<div class="mc"><label>4 · N° SGO / demanda</label>
       <input id="f4" class="mono" value="XXXXXXXXX" oninput="montar9()" title="Nº SGO/demanda ou XXXXXXXXX quando não houver nº"></div>`,
     combo('f5','5 · Etapa',()=>D.etapas,montar9),
@@ -1284,6 +1289,11 @@ function montarForm9(){
   montar9();
 }
 
+/* edificação digitada: MAIÚSCULAS, sem acento, espaço/sublinhado vira traço */
+function normEdif(t){
+  return (t||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[\s_]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+}
 function montar9(){
   const v=[cbValor('f1'),cbValor('f2'),cbValor('f3'),
            document.getElementById('f4').value.trim().toUpperCase(),
@@ -1298,6 +1308,7 @@ function montar9(){
   document.getElementById('f8nRot').textContent =
     regraNum==='OBRIGATORIO' ? 'Nº obrigatório' : 'Nº — só se houver mais de um';
   v[7] = cod ? (item.seq ? (num?cod+'-'+num:cod) : cod) : '';
+  v[2] = normEdif(v[2]);
 
   ['f1','f2','f3','f4','f5','f6','f7','f8','f9'].forEach((id,i)=>{
     const el=document.getElementById(id);
@@ -1320,11 +1331,14 @@ function montar9(){
       <ul>${faltando.map(f=>'<li>'+f+'</li>').join('')}</ul></div>`;
     bt.disabled=true;
   } else {
-    const r=validar(v.join('_'));
+    const r=validar(v.join('_'), {edLivre:true});
     av.innerHTML = r.ok
       ? `<div class="aviso a-ok"><b>✅ Nome completo e válido</b>Todos os 9 campos passam na verificação.</div>`
       : `<div class="aviso a-er"><b>⚠️ Campos preenchidos, mas há inconsistência</b>
          <ul>${r.erros.map(e=>'<li>'+esc(e)+'</li>').join('')}</ul></div>`;
+    if(r.ok && v[0]==='OP-EDU' && !CHAVE_ESC.has(chaveEsc(v[1],v[2])))
+      av.innerHTML += `<div class="aviso a-inf"><b>ℹ️ Edificação digitada</b>
+        “${esc(v[2])}” não consta na lista cadastrada para este município. Confira a grafia antes de usar o nome.</div>`;
     bt.disabled=false;
   }
   if(regraNum==='SE MAIS DE 1') av.innerHTML += avisoNumero(cod);
@@ -1340,9 +1354,9 @@ function montar9(){
        <div class="lb">${esc(desc[i]||'')}</div></div></div>`).join('');
 
   const at=cbValor('f1'), mu=cbValor('f2'), d=document.getElementById('dica9');
-  if(at==='OP-EDU'&&!mu) d.textContent='Selecione o município para listar as escolas cadastradas.';
-  else if(at==='OP-EDU'&&mu) d.textContent=`${escolasDoMunicipio().length} escola(s) cadastrada(s) em ${MAPA_MUN[mu]||mu}.`;
-  else if(at) d.textContent='Fora de OP-EDU a edificação é campo livre — use traço entre as palavras, ex.: QUADRA-COBERTA.';
+  if(at==='OP-EDU'&&!mu) d.textContent='Selecione o município para listar as escolas cadastradas. Se a edificação não estiver na lista, digite o nome dela no campo.';
+  else if(at==='OP-EDU'&&mu) d.textContent=`${escolasDoMunicipio().length} escola(s) cadastrada(s) em ${MAPA_MUN[mu]||mu}. Se a edificação não estiver na lista, digite o nome (formato XXXXX-XXXXX).`;
+  else if(at) d.textContent='Fora de OP-EDU a edificação é campo livre — digite o nome com traço entre as palavras, ex.: QUADRA-COBERTA.';
   else d.textContent='';
 }
 function avisoNumero(cod){
@@ -2796,7 +2810,7 @@ const TOUR_ABAS = {
     { sel:'#a2 .tabs', pos:'baixo', tit:'Escolha a estrutura',
       txt:'Selecione Estrutura ou Módulo Padrão.' },
     { sel:'#a2 .painel.on .montagem', pos:'baixo', tit:'Selecione os campos',
-      txt:'Preencha campo a campo. Cada um aceita busca por código ou por nome.' },
+      txt:'Preencha campo a campo. Cada um aceita busca por código ou por nome. Na edificação, se não estiver na lista, digite o nome.' },
     { sel:'#a2 .painel.on .faixa', pos:'baixo', tit:'Nome será montado',
       txt:'O nome é construído aqui conforme você preenche os campos.' },
     { sel:'#a2 .painel.on .linha', pos:'cima', tit:'Copiar ou limpar',
